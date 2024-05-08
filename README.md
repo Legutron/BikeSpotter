@@ -1,2 +1,0 @@
-# BikeSpotter
-Zadanie rekrutacyjne jakdojade
