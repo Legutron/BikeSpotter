@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		guard let _ = (scene as? UIWindowScene) else { return }
 		guard let windowScene = (scene as? UIWindowScene) else { return }
 		self.window = UIWindow(windowScene: windowScene)
-		let vc = ViewController()
+		let vc = BikeSpotListScreen(viewModel: BikeSpotListViewModel())
 		let nav = UINavigationController(rootViewController: vc)
 		self.window?.rootViewController = nav
 		window?.makeKeyAndVisible()
