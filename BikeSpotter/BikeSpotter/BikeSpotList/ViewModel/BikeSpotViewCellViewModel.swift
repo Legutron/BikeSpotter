@@ -41,8 +41,8 @@ class BikeSpotViewCellViewModel: BikeSpotViewCellViewModelProtocol {
 		self.bikeLabelColor = (spotData.status.numBikesAvailable > 0 ) ? Asset.color.contentPositive ?? .green : Asset.color.contentNegative ?? .red
 		self.bikeAvailableValue = String(spotData.status.numBikesAvailable)
 		self.placeAvailableValue = String(spotData.status.numDocksAvailable)
-		self.bikeAvailableLabel = "Bike Available"
-		self.placeAvailableLabel = "Place Available"
+		self.bikeAvailableLabel = Translations.bikesValueLabel
+		self.placeAvailableLabel = Translations.placesValueLabel
 	}
 }
 
