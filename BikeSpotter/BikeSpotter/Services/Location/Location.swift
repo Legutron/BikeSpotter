@@ -8,28 +8,20 @@
 import Foundation
 import CoreLocation
 
+// Singleton pattern
 public class Location: NSObject {
-	// singleton
 	static let shared = Location()
 	private let locationManager: CLLocationManager
-	private let geocoder: CLGeocoder
 	public var isPermissionGranted: Bool = false
 	public var currentLocation: CLLocation?
 	
 	private init(
 		locationManager: CLLocationManager = .init(),
-		geocoder: CLGeocoder = .init(),
 		isPermissionGranted: Bool = false
 	) {
 		self.locationManager = locationManager
-		self.geocoder = geocoder
 		self.isPermissionGranted = isPermissionGranted
 	}
-	
-	//	.init(
-	//		latitude: 51.11022974300518,
-	//		longitude: 16.880345184560777
-	//	)
 	
 	func requestUserLocation() {
 		self.locationManager.requestWhenInUseAuthorization()
@@ -49,22 +41,14 @@ public class Location: NSObject {
 		}
 	}
 	
-	func startUpdatingLocation() {
-		self.locationManager.startUpdatingLocation()
-	}
-	
-	func stopUpdatingLocation() {
-		self.locationManager.stopUpdatingLocation()
-	}
-	
 	func getDistanceInMeters(coordinate1: CLLocation, coordinate2: CLLocation) -> Int {
 		Int(coordinate1.distance(from: coordinate2))
 	}
-	
 }
 
 extension Location: CLLocationManagerDelegate {
 	public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 		currentLocation = manager.location
+		// in the future there is an option to navigate user to the selected station (using locationManager.startUpdatingLocation())
 	}
 }

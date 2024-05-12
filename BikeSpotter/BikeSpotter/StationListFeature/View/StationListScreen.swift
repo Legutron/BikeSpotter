@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  StationListScreen.swift
 //  BikeSpotter
 //
 //  Created by Jakub Legut on 08/05/2024.
@@ -7,9 +7,10 @@
 
 import UIKit
 
-class BikeSpotListScreen: UIViewController, MyViewUpdateDelegate {
+class StationListScreen: UIViewController, StationListNotifyDelegate {
 	enum Constants {
 		static let cellIdentifier: String = "station_cell"
+		static let rowHeight: CGFloat = 250
 	}
 	
 	// MARK: - UI
@@ -26,12 +27,11 @@ class BikeSpotListScreen: UIViewController, MyViewUpdateDelegate {
 		tableView.backgroundColor = Asset.color.backgroundSecondary
 		tableView.separatorStyle = .none
 		tableView.allowsSelection = true
-		tableView.rowHeight = 250
+		tableView.rowHeight = Constants.rowHeight
 		tableView.dataSource = self
 		tableView.delegate = self
 		tableView.contentInsetAdjustmentBehavior = .never
-		tableView.register(BikeSpotViewCell.self, forCellReuseIdentifier: Constants.cellIdentifier)
-		
+		tableView.register(StationListViewCell.self, forCellReuseIdentifier: Constants.cellIdentifier)
 		return tableView
 	}()
 	
@@ -43,11 +43,9 @@ class BikeSpotListScreen: UIViewController, MyViewUpdateDelegate {
 	}()
 	
 	// MARK: - Properties
-	
-	private var viewModel: BikeSpotListViewModelProtocol
+	private var viewModel: StationListViewModelProtocol
 	
 	// MARK: - Lifecycle
-	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		viewModel.delegate = self
@@ -57,26 +55,6 @@ class BikeSpotListScreen: UIViewController, MyViewUpdateDelegate {
 	}
 	
 	// MARK: - Setup views
-	
-	func setupViews() {
-		self.view.backgroundColor = Asset.color.backgroundSecondary
-		self.view.addSubview(contentView)
-		self.view.addSubview(tableView)
-		loadingView.isHidden = true
-		
-		NSLayoutConstraint.activate([
-			contentView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-			contentView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-			contentView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-			contentView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-			
-			tableView.topAnchor.constraint(equalTo: contentView.topAnchor),
-			tableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-			tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-			tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-		])
-	}
-	
 	func setupNavBar() {
 		let appearance = UINavigationBarAppearance()
 		appearance.backgroundColor = Asset.color.backgroundNavbar
@@ -102,9 +80,27 @@ class BikeSpotListScreen: UIViewController, MyViewUpdateDelegate {
 		])
 	}
 	
-	// MARK: - Inits
+	func setupViews() {
+		self.view.backgroundColor = Asset.color.backgroundSecondary
+		self.view.addSubview(contentView)
+		self.view.addSubview(tableView)
+		loadingView.isHidden = true
+		
+		NSLayoutConstraint.activate([
+			contentView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+			contentView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+			contentView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+			contentView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+			
+			tableView.topAnchor.constraint(equalTo: contentView.topAnchor),
+			tableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+			tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+			tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+		])
+	}
 	
-	init(viewModel: BikeSpotListViewModelProtocol) {
+	// MARK: - Inits
+	init(viewModel: StationListViewModelProtocol) {
 		self.viewModel = viewModel
 		super.init(nibName: nil, bundle: nil)
 	}
@@ -113,8 +109,8 @@ class BikeSpotListScreen: UIViewController, MyViewUpdateDelegate {
 		nil
 	}
 	
-	// MARK: - Behaviour
-	func update() {
+	// MARK: - Notify Actions
+	func stationsUpdated() {
 		DispatchQueue.main.async {
 			self.tableView.reloadData()
 			self.setupViews()
@@ -123,14 +119,13 @@ class BikeSpotListScreen: UIViewController, MyViewUpdateDelegate {
 }
 
 // MARK: - UITableViewDelegate
-
-extension BikeSpotListScreen: UITableViewDelegate, UITableViewDataSource {
+extension StationListScreen: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return viewModel.cellViewModels.count
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier) as! BikeSpotViewCell
+		let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier) as! StationListViewCell
 		let cellModel = viewModel.cellViewModels[indexPath.row]
 		cell.setupCell(viewModel: cellModel)
 		cell.selectionStyle = .none
@@ -140,11 +135,11 @@ extension BikeSpotListScreen: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let station = viewModel.cellViewModels[indexPath.row]
 		navigationController?.pushViewController(
-			BikeSpotMapScreen(
-				viewModel: BikeSpotMapViewModel(
+			StationDetailMapScreen(
+				viewModel: StationDetailMapViewModel(
 					stationLocation: station.location, 
 					bikeAvailableValueLabel: station.bikeAvailableValue, 
-					stationDetailViewModel: StationDetailViewModel(spotData: station)
+					stationDetailViewModel: StationDetailViewModel(stationData: station)
 				)
 			),
 			animated: true
@@ -154,7 +149,7 @@ extension BikeSpotListScreen: UITableViewDelegate, UITableViewDataSource {
 
 // MARK: - Preview
 #if DEBUG
-#Preview("BikeSpotListScreen") {
-	BikeSpotListScreen(viewModel: BikeSpotListViewModel())
+#Preview("StationListScreen") {
+	StationListScreen(viewModel: StationListViewModel())
 }
 #endif

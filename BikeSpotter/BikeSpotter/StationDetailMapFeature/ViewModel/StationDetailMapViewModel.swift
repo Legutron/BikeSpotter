@@ -1,5 +1,5 @@
 //
-//  ViewModel.swift
+//  StationDetailMapViewModel.swift
 //  BikeSpotter
 //
 //  Created by Jakub Legut on 08/05/2024.
@@ -8,10 +8,12 @@
 import Foundation
 import CoreLocation
 
+protocol StationDetailMapNotifyDelegate: AnyObject {
+	func userLocationUpdated()
+}
 
-protocol BikeSpotMapViewModelProtocol {
-	var delegate: MyViewUpdateDelegate? { get set }
-	
+protocol StationDetailMapViewModelProtocol {
+	var delegate: StationDetailMapNotifyDelegate? { get set }
 	var userLocation: CLLocation? { get }
 	var stationLocation: CLLocation { get }
 	var bikeAvailableValueLabel: String { get }
@@ -19,8 +21,8 @@ protocol BikeSpotMapViewModelProtocol {
 	func requestUserLocation()
 }
 
-final class BikeSpotMapViewModel: BikeSpotMapViewModelProtocol {
-	weak var delegate: MyViewUpdateDelegate?
+final class StationDetailMapViewModel: StationDetailMapViewModelProtocol {
+	weak var delegate: StationDetailMapNotifyDelegate?
 	
 	@Published var userLocation: CLLocation?
 	@Published var stationLocation: CLLocation
@@ -46,15 +48,9 @@ final class BikeSpotMapViewModel: BikeSpotMapViewModelProtocol {
 			let userLocation = Location.shared.currentLocation
 		{
 			self.userLocation = userLocation
-			delegate?.update()
+			delegate?.userLocationUpdated()
 		} else {
 			self.userLocation = nil
 		}
 	}
 }
-
-//	.init(
-//		latitude: 51.11022974300518,
-//		longitude: 16.880345184560777
-//	)
-

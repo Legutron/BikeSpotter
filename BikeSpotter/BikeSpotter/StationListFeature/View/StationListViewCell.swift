@@ -1,26 +1,30 @@
 //
-//  StationDetailView.swift
+//  StationListViewCell.swift
 //  BikeSpotter
 //
-//  Created by Jakub Legut on 12/05/2024.
+//  Created by Jakub Legut on 10/05/2024.
 //
 
 import UIKit
 
-final class StationDetailView: UIView {
+class StationListViewCell: UITableViewCell {
 	enum Constants {
 		static let padding: CGFloat = 16
-		static let bottomPadding: CGFloat = 64
 		static let spacing: CGFloat = 8
 		static let cornerRadius: CGFloat = 24
+		static let titleLabelHeight: CGFloat = 30
 	}
-	// MARK: - UI
-	private lazy var contentView: UIView = {
+	
+	// MARK: - UI properties
+	private lazy var cellView: UIView = {
 		let view = UIView()
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.backgroundColor = Asset.color.backgroundPrimary
 		view.layer.cornerRadius = Constants.cornerRadius
-		view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+		view.layer.shadowColor = UIColor.black.cgColor
+		view.layer.shadowOpacity = 0.05
+		view.layer.shadowOffset = .zero
+		view.layer.shadowRadius = 8
 		return view
 	}()
 	
@@ -34,7 +38,7 @@ final class StationDetailView: UIView {
 	private lazy var distanceLabel: UILabel = {
 		let lbl = UILabel()
 		lbl.translatesAutoresizingMaskIntoConstraints = false
-		lbl.font = .systemFont(ofSize: 16, weight: .bold)
+		lbl.font = .systemFont(ofSize: 12, weight: .bold)
 		lbl.setContentHuggingPriority(.required, for: .horizontal)
 		return lbl
 	}()
@@ -42,7 +46,7 @@ final class StationDetailView: UIView {
 	private lazy var addressLabel: UILabel = {
 		let lbl = UILabel()
 		lbl.translatesAutoresizingMaskIntoConstraints = false
-		lbl.font = .systemFont(ofSize: 16, weight: .regular)
+		lbl.font = .systemFont(ofSize: 12, weight: .regular)
 		lbl.setContentHuggingPriority(.defaultLow, for: .horizontal)
 		return lbl
 	}()
@@ -63,7 +67,7 @@ final class StationDetailView: UIView {
 		let imageView = UIImageView()
 		imageView.translatesAutoresizingMaskIntoConstraints = false
 		imageView.contentMode = .scaleAspectFill
-		imageView.image = UIImage(named:Asset.image.bikeIcon)
+		imageView.image = UIImage(named: Asset.image.bikeIcon)
 		return imageView
 	}()
 	
@@ -71,7 +75,7 @@ final class StationDetailView: UIView {
 		let imageView = UIImageView()
 		imageView.translatesAutoresizingMaskIntoConstraints = false
 		imageView.contentMode = .scaleAspectFill
-		imageView.image = UIImage(named:Asset.image.lockIcon)
+		imageView.image = UIImage(named: Asset.image.lockIcon)
 		return imageView
 	}()
 	
@@ -92,14 +96,14 @@ final class StationDetailView: UIView {
 	private lazy var bikeAvailableLabel: UILabel = {
 		let lbl = UILabel()
 		lbl.translatesAutoresizingMaskIntoConstraints = false
-		lbl.font = .systemFont(ofSize: 16, weight: .regular)
+		lbl.font = .systemFont(ofSize: 12, weight: .regular)
 		return lbl
 	}()
 	
 	private lazy var placeAvailableLabel: UILabel = {
 		let lbl = UILabel()
 		lbl.translatesAutoresizingMaskIntoConstraints = false
-		lbl.font = .systemFont(ofSize: 16, weight: .regular)
+		lbl.font = .systemFont(ofSize: 12, weight: .regular)
 		return lbl
 	}()
 	
@@ -111,7 +115,7 @@ final class StationDetailView: UIView {
 		])
 		vw.translatesAutoresizingMaskIntoConstraints = false
 		vw.axis = .vertical
-		vw.spacing = 8
+		vw.spacing = Constants.spacing
 		vw.alignment = .center
 		vw.distribution = .fillProportionally
 		return vw
@@ -125,7 +129,7 @@ final class StationDetailView: UIView {
 		])
 		vw.translatesAutoresizingMaskIntoConstraints = false
 		vw.axis = .vertical
-		vw.spacing = 8
+		vw.spacing = Constants.spacing
 		vw.alignment = .center
 		vw.distribution = .fillProportionally
 		return vw
@@ -138,55 +142,66 @@ final class StationDetailView: UIView {
 		])
 		vw.translatesAutoresizingMaskIntoConstraints = false
 		vw.axis = .horizontal
-		vw.spacing = 8
+		vw.spacing = Constants.spacing
 		vw.alignment = .center
 		vw.distribution = .fillEqually
 		return vw
-	}()	
+	}()
 	
 	// MARK: - Properties
-	private var viewModel: StationDetailViewModelProtocol?
+	private var viewModel: StationListCellViewModelProtocol?
 	
-	// MARK: - Inits -
-	
-	convenience init() {
-		self.init(frame: .zero)
+	// MARK: - Inits
+	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		setupViews()
 	}
 	
-	// MARK: - Setup -
+	required init?(coder: NSCoder) {
+		nil
+	}
 	
+	override func prepareForReuse() {
+		super.prepareForReuse()
+	}
+	
+	// MARK: - Setup views
 	func setupViews() {
-		self.addSubview(contentView)
+		self.backgroundColor = Asset.color.backgroundSecondary
+		self.addSubview(cellView)
 		self.addSubview(titleLabel)
 		self.addSubview(subtitleStack)
 		self.addSubview(valuesStack)
 		
 		NSLayoutConstraint.activate([
-			contentView.topAnchor.constraint(equalTo: self.topAnchor),
-			contentView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-			contentView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-			contentView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+			cellView.topAnchor.constraint(equalTo: self.topAnchor, constant: Constants.spacing),
+			cellView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -Constants.spacing),
+			cellView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.padding),
+			cellView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.padding),
 			
-			titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.padding),
-			titleLabel.heightAnchor.constraint(equalToConstant: 30),
-			titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.padding),
-			titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.padding),
+			titleLabel.topAnchor.constraint(equalTo: cellView.topAnchor, constant: Constants.padding),
+			titleLabel.heightAnchor.constraint(equalToConstant: Constants.titleLabelHeight),
+			titleLabel.leadingAnchor.constraint(equalTo: cellView.leadingAnchor, constant: Constants.padding),
+			titleLabel.trailingAnchor.constraint(equalTo: cellView.trailingAnchor, constant: -Constants.padding),
 			
 			subtitleStack.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-			subtitleStack.heightAnchor.constraint(equalToConstant: 30),
-			subtitleStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.padding),
-			subtitleStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.padding),
+			subtitleStack.heightAnchor.constraint(equalToConstant: Constants.titleLabelHeight),
+			subtitleStack.leadingAnchor.constraint(equalTo: cellView.leadingAnchor, constant: Constants.padding),
+			subtitleStack.trailingAnchor.constraint(equalTo: cellView.trailingAnchor, constant: -Constants.padding),
 			
-			valuesStack.topAnchor.constraint(equalTo: subtitleStack.bottomAnchor, constant: 8),
-			valuesStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.padding),
-			valuesStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.padding),
-			valuesStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.bottomPadding),
+			valuesStack.topAnchor.constraint(equalTo: subtitleStack.bottomAnchor, constant: Constants.spacing),
+			valuesStack.leadingAnchor.constraint(equalTo: cellView.leadingAnchor, constant: Constants.padding),
+			valuesStack.trailingAnchor.constraint(equalTo: cellView.trailingAnchor, constant: -Constants.padding),
+			valuesStack.bottomAnchor.constraint(equalTo: cellView.bottomAnchor, constant: -Constants.padding),
 		])
 	}
 	
-	func setupData(viewModel: StationDetailViewModelProtocol) {
+	func setupCell(viewModel: StationListCellViewModelProtocol) {
 		self.viewModel = viewModel
+		setupData()
+	}
+	
+	func setupData() {
 		self.titleLabel.text = self.viewModel?.label
 		self.distanceLabel.text = self.viewModel?.distance
 		self.addressLabel.text = self.viewModel?.address
@@ -198,6 +213,14 @@ final class StationDetailView: UIView {
 		
 		self.bikeAvailableValueLabel.textColor = self.viewModel?.bikeLabelColor
 	}
-	
 }
 
+// MARK: - Preview
+#if DEBUG
+#Preview("StationListViewCell") {
+	StationListViewCell(
+		style: .default,
+		reuseIdentifier: nil
+	)
+}
+#endif

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import CoreLocation
 
-protocol BikeSpotViewCellViewModelProtocol {
+protocol StationListCellViewModelProtocol {
 	var label: String { get }
 	var distance: String? { get }
 	var address: String { get }
@@ -20,7 +20,7 @@ protocol BikeSpotViewCellViewModelProtocol {
 	var placeAvailableLabel: String { get }
 }
 
-class BikeSpotViewCellViewModel: BikeSpotViewCellViewModelProtocol {
+class StationListCellViewModel: StationListCellViewModelProtocol {
 	var stationID: String
 	var location: CLLocation
 	@Published var label: String
@@ -32,15 +32,17 @@ class BikeSpotViewCellViewModel: BikeSpotViewCellViewModelProtocol {
 	@Published var bikeAvailableLabel: String
 	@Published var placeAvailableLabel: String
 	
-	init(spotData: StationSpotData) {
-		self.stationID = spotData.station.stationID
-		self.location = spotData.location
-		self.label = spotData.name
-		self.distance = spotData.distanceLabel
-		self.address = spotData.station.address
-		self.bikeLabelColor = (spotData.status.numBikesAvailable > 0 ) ? Asset.color.contentPositive ?? .green : Asset.color.contentNegative ?? .red
-		self.bikeAvailableValue = String(spotData.status.numBikesAvailable)
-		self.placeAvailableValue = String(spotData.status.numDocksAvailable)
+	init(stationData: StationData) {
+		self.stationID = stationData.station.stationID
+		self.location = stationData.location
+		self.label = stationData.name
+		self.distance = stationData.distanceLabel
+		self.address = stationData.station.address
+		self.bikeLabelColor = (stationData.status.numBikesAvailable > 0 ) 
+		? Asset.color.contentPositive ?? .green
+		: Asset.color.contentNegative ?? .red
+		self.bikeAvailableValue = String(stationData.status.numBikesAvailable)
+		self.placeAvailableValue = String(stationData.status.numDocksAvailable)
 		self.bikeAvailableLabel = Translations.bikesValueLabel
 		self.placeAvailableLabel = Translations.placesValueLabel
 	}

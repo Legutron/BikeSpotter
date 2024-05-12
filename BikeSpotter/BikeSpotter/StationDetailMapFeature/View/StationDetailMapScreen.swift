@@ -1,5 +1,5 @@
 //
-//  BikeSpotMapScreen.swift
+//  StationDetailMapScreen.swift
 //  BikeSpotter
 //
 //  Created by Jakub Legut on 08/05/2024.
@@ -9,15 +9,16 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class BikeSpotMapScreen: UIViewController, MyViewUpdateDelegate {
+class StationDetailMapScreen: UIViewController, StationDetailMapNotifyDelegate {
 	enum Constants {
 		static let mapEdgeInsets: UIEdgeInsets = .init(
 			top: 50,
 			left: 50,
-			bottom: 200,
+			bottom: 250,
 			right: 50
 		)
 		static let defaultDistance: Double = 500
+		static let lineWidth: CGFloat = 2.0
 	}
 	
 	// MARK: - UI
@@ -33,17 +34,15 @@ class BikeSpotMapScreen: UIViewController, MyViewUpdateDelegate {
 		map.showsUserLocation = true
 		map.delegate = self
 		map.setUserTrackingMode(.follow, animated:true)
-		map.register(CustomAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+		map.register(StationAnnotationPinView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
 		map.tintColor = Asset.color.backgroundActive
 		return map
 	}()
 	
 	// MARK: - Properties
-	private var viewModel: BikeSpotMapViewModelProtocol
-	var routeOverlay: MKOverlay?
+	private var viewModel: StationDetailMapViewModelProtocol
 	
 	// MARK: - Lifecycle
-	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.viewModel.delegate = self
@@ -54,7 +53,6 @@ class BikeSpotMapScreen: UIViewController, MyViewUpdateDelegate {
 	}
 	
 	// MARK: - Setup views
-	
 	func setupViews() {
 		self.view.backgroundColor = Asset.color.backgroundSecondary
 		self.view.addSubview(mapView)
@@ -81,8 +79,7 @@ class BikeSpotMapScreen: UIViewController, MyViewUpdateDelegate {
 	}
 	
 	// MARK: - Inits
-	
-	init(viewModel: BikeSpotMapViewModelProtocol) {
+	init(viewModel: StationDetailMapViewModelProtocol) {
 		self.viewModel = viewModel
 		super.init(nibName: nil, bundle: nil)
 	}
@@ -91,8 +88,8 @@ class BikeSpotMapScreen: UIViewController, MyViewUpdateDelegate {
 		nil
 	}
 	
-	// MARK: - Behaviour
-	func update() {
+	// MARK: - Notify Actions
+	func userLocationUpdated() {
 		DispatchQueue.main.async {
 			if let userLocation = self.viewModel.userLocation {
 				self.showRouteOnMap(
@@ -105,8 +102,7 @@ class BikeSpotMapScreen: UIViewController, MyViewUpdateDelegate {
 }
 
 // MARK: - MKMapViewDelegate
-
-extension BikeSpotMapScreen: MKMapViewDelegate {
+extension StationDetailMapScreen: MKMapViewDelegate {
 	func addCustomPin() {
 		let pin = MKPointAnnotation()
 		pin.coordinate = viewModel.stationLocation.coordinate
@@ -125,7 +121,7 @@ extension BikeSpotMapScreen: MKMapViewDelegate {
 		if annotation is MKUserLocation {
 			return nil
 		} else {
-			let annotationView: CustomAnnotationProtocol = CustomAnnotationView(annotation: annotation, reuseIdentifier: "custom")
+			let annotationView: StationAnnotationPinProtocol = StationAnnotationPinView(annotation: annotation, reuseIdentifier: "custom")
 			annotationView.setData(value: viewModel.bikeAvailableValueLabel)
 			return annotationView as? MKAnnotationView
 		}
@@ -134,7 +130,7 @@ extension BikeSpotMapScreen: MKMapViewDelegate {
 	func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
 		let renderer = MKPolylineRenderer(overlay: overlay)
 		renderer.strokeColor = Asset.color.backgroundActive
-		renderer.lineWidth = 3.0
+		renderer.lineWidth = Constants.lineWidth
 		renderer.lineDashPattern = [2,6]
 		return renderer
 	}
@@ -168,22 +164,19 @@ extension BikeSpotMapScreen: MKMapViewDelegate {
 }
 
 // MARK: - Preview
-#warning("TO DO")
 #if DEBUG
-//#Preview("BikeSpotMapScreen") {
-//	BikeSpotMapScreen(
-//		viewModel: BikeSpotMapViewModel(
-//			stationLocation: .init(
-//				latitude: 51.11022974300518,
-//				longitude: 16.880345184560777
-//			),
-//			bikeAvailableValueLabel: "22", 
-//			stationDetailViewModel: StationDetailViewModel(
-//				spotData: .init(
-//				station: <#T##Station#>,
-//				status: <#T##StationStatusModel#>)
-//			)
-//		)
-//	)
-//}
+#Preview("StationDetailMapScreen") {
+	StationDetailMapScreen(
+		viewModel: StationDetailMapViewModel(
+			stationLocation: .init(
+				latitude: 54.375998,
+				longitude: 18.626554
+			),
+			bikeAvailableValueLabel: Translations.bikesValueLabel,
+			stationDetailViewModel: StationDetailViewModel(
+				stationData: .init(stationData: .mock)
+			)
+		)
+	)
+}
 #endif

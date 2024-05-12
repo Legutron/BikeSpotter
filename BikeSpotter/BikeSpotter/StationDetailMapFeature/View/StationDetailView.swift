@@ -1,29 +1,28 @@
 //
-//  BikeSpotCellView.swift
+//  StationDetailView.swift
 //  BikeSpotter
 //
-//  Created by Jakub Legut on 10/05/2024.
+//  Created by Jakub Legut on 12/05/2024.
 //
 
 import UIKit
 
-class BikeSpotViewCell: UITableViewCell {
+final class StationDetailView: UIView {
 	enum Constants {
 		static let padding: CGFloat = 16
+		static let bottomPadding: CGFloat = 64
 		static let spacing: CGFloat = 8
 		static let cornerRadius: CGFloat = 24
+		static let titleLabelHeight: CGFloat = 30
 	}
 	
-	// MARK: - UI properties
-	private lazy var cellView: UIView = {
+	// MARK: - UI
+	private lazy var contentView: UIView = {
 		let view = UIView()
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.backgroundColor = Asset.color.backgroundPrimary
 		view.layer.cornerRadius = Constants.cornerRadius
-		view.layer.shadowColor = UIColor.black.cgColor
-		view.layer.shadowOpacity = 0.2
-		view.layer.shadowOffset = .zero
-		view.layer.shadowRadius = 6
+		view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
 		return view
 	}()
 	
@@ -37,7 +36,7 @@ class BikeSpotViewCell: UITableViewCell {
 	private lazy var distanceLabel: UILabel = {
 		let lbl = UILabel()
 		lbl.translatesAutoresizingMaskIntoConstraints = false
-		lbl.font = .systemFont(ofSize: 16, weight: .bold)
+		lbl.font = .systemFont(ofSize: 12, weight: .bold)
 		lbl.setContentHuggingPriority(.required, for: .horizontal)
 		return lbl
 	}()
@@ -45,7 +44,7 @@ class BikeSpotViewCell: UITableViewCell {
 	private lazy var addressLabel: UILabel = {
 		let lbl = UILabel()
 		lbl.translatesAutoresizingMaskIntoConstraints = false
-		lbl.font = .systemFont(ofSize: 16, weight: .regular)
+		lbl.font = .systemFont(ofSize: 12, weight: .regular)
 		lbl.setContentHuggingPriority(.defaultLow, for: .horizontal)
 		return lbl
 	}()
@@ -95,14 +94,14 @@ class BikeSpotViewCell: UITableViewCell {
 	private lazy var bikeAvailableLabel: UILabel = {
 		let lbl = UILabel()
 		lbl.translatesAutoresizingMaskIntoConstraints = false
-		lbl.font = .systemFont(ofSize: 16, weight: .regular)
+		lbl.font = .systemFont(ofSize: 12, weight: .regular)
 		return lbl
 	}()
 	
 	private lazy var placeAvailableLabel: UILabel = {
 		let lbl = UILabel()
 		lbl.translatesAutoresizingMaskIntoConstraints = false
-		lbl.font = .systemFont(ofSize: 16, weight: .regular)
+		lbl.font = .systemFont(ofSize: 12, weight: .regular)
 		return lbl
 	}()
 	
@@ -114,7 +113,7 @@ class BikeSpotViewCell: UITableViewCell {
 		])
 		vw.translatesAutoresizingMaskIntoConstraints = false
 		vw.axis = .vertical
-		vw.spacing = 8
+		vw.spacing = Constants.spacing
 		vw.alignment = .center
 		vw.distribution = .fillProportionally
 		return vw
@@ -128,7 +127,7 @@ class BikeSpotViewCell: UITableViewCell {
 		])
 		vw.translatesAutoresizingMaskIntoConstraints = false
 		vw.axis = .vertical
-		vw.spacing = 8
+		vw.spacing = Constants.spacing
 		vw.alignment = .center
 		vw.distribution = .fillProportionally
 		return vw
@@ -141,64 +140,53 @@ class BikeSpotViewCell: UITableViewCell {
 		])
 		vw.translatesAutoresizingMaskIntoConstraints = false
 		vw.axis = .horizontal
-		vw.spacing = 8
+		vw.spacing = Constants.spacing
 		vw.alignment = .center
 		vw.distribution = .fillEqually
 		return vw
-	}()
+	}()	
 	
 	// MARK: - Properties
-	private var viewModel: BikeSpotViewCellViewModelProtocol?
+	private var viewModel: StationDetailViewModelProtocol?
 	
-	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-		super.init(style: style, reuseIdentifier: reuseIdentifier)
+	// MARK: - Inits -
+	convenience init() {
+		self.init(frame: .zero)
 		setupViews()
 	}
 	
-	required init?(coder: NSCoder) {
-		nil
-	}
-	
-	override func prepareForReuse() {
-		super.prepareForReuse()
-	}
-	
+	// MARK: - Setup -
 	func setupViews() {
-		self.backgroundColor = Asset.color.backgroundSecondary
-		self.addSubview(cellView)
+		self.addSubview(contentView)
 		self.addSubview(titleLabel)
 		self.addSubview(subtitleStack)
 		self.addSubview(valuesStack)
 		
 		NSLayoutConstraint.activate([
-			cellView.topAnchor.constraint(equalTo: self.topAnchor, constant: Constants.spacing),
-			cellView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -Constants.spacing),
-			cellView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.padding),
-			cellView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.padding),
+			contentView.topAnchor.constraint(equalTo: self.topAnchor),
+			contentView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+			contentView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+			contentView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
 			
-			titleLabel.topAnchor.constraint(equalTo: cellView.topAnchor, constant: Constants.padding),
-			titleLabel.heightAnchor.constraint(equalToConstant: 30),
-			titleLabel.leadingAnchor.constraint(equalTo: cellView.leadingAnchor, constant: Constants.padding),
-			titleLabel.trailingAnchor.constraint(equalTo: cellView.trailingAnchor, constant: -Constants.padding),
+			titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.padding),
+			titleLabel.heightAnchor.constraint(equalToConstant: Constants.titleLabelHeight),
+			titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.padding),
+			titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.padding),
 			
 			subtitleStack.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-			subtitleStack.heightAnchor.constraint(equalToConstant: 30),
-			subtitleStack.leadingAnchor.constraint(equalTo: cellView.leadingAnchor, constant: Constants.padding),
-			subtitleStack.trailingAnchor.constraint(equalTo: cellView.trailingAnchor, constant: -Constants.padding),
+			subtitleStack.heightAnchor.constraint(equalToConstant: Constants.titleLabelHeight),
+			subtitleStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.padding),
+			subtitleStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.padding),
 			
-			valuesStack.topAnchor.constraint(equalTo: subtitleStack.bottomAnchor, constant: 8),
-			valuesStack.leadingAnchor.constraint(equalTo: cellView.leadingAnchor, constant: Constants.padding),
-			valuesStack.trailingAnchor.constraint(equalTo: cellView.trailingAnchor, constant: -Constants.padding),
-			valuesStack.bottomAnchor.constraint(equalTo: cellView.bottomAnchor, constant: -Constants.padding),
+			valuesStack.topAnchor.constraint(equalTo: subtitleStack.bottomAnchor, constant: Constants.spacing),
+			valuesStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.padding),
+			valuesStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.padding),
+			valuesStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.bottomPadding),
 		])
 	}
 	
-	func setupCell(viewModel: BikeSpotViewCellViewModelProtocol) {
+	func setupData(viewModel: StationDetailViewModelProtocol) {
 		self.viewModel = viewModel
-		setupData()
-	}
-	
-	func setupData() {
 		self.titleLabel.text = self.viewModel?.label
 		self.distanceLabel.text = self.viewModel?.distance
 		self.addressLabel.text = self.viewModel?.address
@@ -211,13 +199,3 @@ class BikeSpotViewCell: UITableViewCell {
 		self.bikeAvailableValueLabel.textColor = self.viewModel?.bikeLabelColor
 	}
 }
-
-// MARK: - Preview
-#if DEBUG
-#Preview("BikeSpotViewCell") {
-	BikeSpotViewCell(
-		style: .default,
-		reuseIdentifier: nil
-	)
-}
-#endif
