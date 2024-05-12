@@ -36,7 +36,7 @@ final class StationListViewModel: StationListViewModelProtocol {
 			}
 			delegate?.stationsUpdated()
 		} catch {
-			print(error.localizedDescription)
+			print("🔴 Error: \(error.localizedDescription)")
 		}
 	}
 	
