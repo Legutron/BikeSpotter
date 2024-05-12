@@ -25,8 +25,19 @@ public class Api {
 	func fetchStations() async throws -> [StationSpotData] {
 		async let stations = try fetchStationInformation()
 		async let statuses = try fetchStationStatuses()
-		let data = try await StationData(stations: stations, statuses: statuses)
-		return data.filteredActive()
+		var data = try await StationData(stations: stations, statuses: statuses).filteredActive()
+		if let userLocation = Location.shared.currentLocation {
+			data = data.map { station in
+				var updatedStation = station
+				updatedStation.distance = Location.shared.getDistanceInMeters(
+					coordinate1: userLocation,
+					coordinate2: station.location
+				)
+				return updatedStation
+			}
+			data.sort(by: { $0.distance ?? 999 < $1.distance ?? 999 })
+		}
+		return data
 	}
 	
 	private func fetchStationInformation() async throws -> StationInformationModel {

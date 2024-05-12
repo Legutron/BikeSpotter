@@ -57,26 +57,9 @@ public class Location: NSObject {
 		self.locationManager.stopUpdatingLocation()
 	}
 	
-	func geocode(latitude: Double, longitude: Double, completion: @escaping (CLPlacemark?, Error?) -> ())  {
-		CLGeocoder()
-			.reverseGeocodeLocation(CLLocation(latitude: latitude, longitude: longitude)) { completion($0?.first, $1) }
+	func getDistanceInMeters(coordinate1: CLLocation, coordinate2: CLLocation) -> Int {
+		Int(coordinate1.distance(from: coordinate2))
 	}
-	
-//	func getAddressForLocation(location: CLLocation) -> String? {
-//		var address: String? = nil
-//		geocoder.reverseGeocodeLocation(
-//			location,
-//			completionHandler: { (placemark, error) in
-//				guard let placemark = placemark, error == nil else { return }
-//				let street = placemark.t
-//				let number = placemark.subThoroughfare ?? ""
-//				let city = placemark.locality ?? ""
-//				address = street + number + city
-//				
-//			}
-//		)
-//		return address
-//	}
 	
 }
 
