@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 struct StationSpotData {
 	let station: Station
@@ -17,6 +18,10 @@ struct StationSpotData {
 			station.address
 		]
 		return name.joined(separator: Sign.spacer)
+	}
+	
+	var location: CLLocation {
+		CLLocation(latitude: station.lat, longitude: station.lon)
 	}
 }
 

@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 
 protocol CustomAnnotationProtocol {
-	func setData(value: Int)
+	func setData(value: String)
 }
 
 final class CustomAnnotationView: MKAnnotationView, CustomAnnotationProtocol {
@@ -44,7 +44,7 @@ final class CustomAnnotationView: MKAnnotationView, CustomAnnotationProtocol {
 		}
 	}
 	
-	public func setData(value: Int) {
+	public func setData(value: String) {
 		pinView?.setData(value: value)
 	}
 }
@@ -97,7 +97,7 @@ class MapPinView: UIView {
 	private func setupViews() {
 		self.translatesAutoresizingMaskIntoConstraints = false
 		self.addSubview(stack)
-		self.backgroundColor = Asset.color.backgroundSecondary
+		self.backgroundColor = Asset.color.backgroundPrimary
 		self.layer.cornerRadius = 20
 		
 		NSLayoutConstraint.activate([
@@ -108,8 +108,8 @@ class MapPinView: UIView {
 		])
 	}
 	
-	func setData(value: Int) {
-		label.text = String(value)
+	func setData(value: String) {
+		label.text = value
 	}
 }
 
