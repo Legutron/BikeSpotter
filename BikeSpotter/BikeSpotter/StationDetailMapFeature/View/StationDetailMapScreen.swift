@@ -14,7 +14,7 @@ class StationDetailMapScreen: UIViewController, StationDetailMapNotifyDelegate {
 		static let mapEdgeInsets: UIEdgeInsets = .init(
 			top: 50,
 			left: 50,
-			bottom: 200,
+			bottom: 250,
 			right: 50
 		)
 		static let defaultDistance: Double = 500
