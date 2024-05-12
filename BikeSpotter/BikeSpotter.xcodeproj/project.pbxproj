@@ -35,6 +35,7 @@
 		3B95A8E32BF09EA6003F52F5 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95A8E22BF09EA6003F52F5 /* Location.swift */; };
 		3B95A8E62BF0A716003F52F5 /* SpotDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95A8E52BF0A716003F52F5 /* SpotDataMapper.swift */; };
 		3B95A8E82BF0AE8E003F52F5 /* Sign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95A8E72BF0AE8E003F52F5 /* Sign.swift */; };
+		3B95A8EA2BF0B141003F52F5 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95A8E92BF0B141003F52F5 /* LoadingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,7 @@
 		3B95A8E22BF09EA6003F52F5 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		3B95A8E52BF0A716003F52F5 /* SpotDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotDataMapper.swift; sourceTree = "<group>"; };
 		3B95A8E72BF0AE8E003F52F5 /* Sign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sign.swift; sourceTree = "<group>"; };
+		3B95A8E92BF0B141003F52F5 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +198,7 @@
 			children = (
 				3B16F04B2BEBBDE800CF64DC /* BikeSpotListScreen.swift */,
 				3B95A8CD2BEE2BCE003F52F5 /* BikeSpotViewCell.swift */,
+				3B95A8E92BF0B141003F52F5 /* LoadingView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -447,6 +450,7 @@
 				3B95A8E62BF0A716003F52F5 /* SpotDataMapper.swift in Sources */,
 				3B8BEDAF2BED1ACD004B1064 /* StationModel.swift in Sources */,
 				3B95A8DB2BEF4C24003F52F5 /* StationData.swift in Sources */,
+				3B95A8EA2BF0B141003F52F5 /* LoadingView.swift in Sources */,
 				3B16F0192BEBA62900CF64DC /* ViewController.swift in Sources */,
 				3B95A8D72BEE3760003F52F5 /* ApiError.swift in Sources */,
 				3B16F04C2BEBBDE800CF64DC /* BikeSpotListScreen.swift in Sources */,
