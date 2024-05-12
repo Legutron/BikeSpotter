@@ -35,6 +35,13 @@ class BikeSpotListScreen: UIViewController, MyViewUpdateDelegate {
 		return tableView
 	}()
 	
+	private lazy var loadingView: UIView = {
+		let vw = LoadingView()
+		vw.translatesAutoresizingMaskIntoConstraints = false
+		vw.backgroundColor = Asset.color.backgroundSecondary
+		return vw
+	}()
+	
 	// MARK: - Properties
 	
 	private var viewModel: BikeSpotListViewModelProtocol
@@ -46,7 +53,7 @@ class BikeSpotListScreen: UIViewController, MyViewUpdateDelegate {
 		viewModel.delegate = self
 		viewModel.fetchData()
 		setupNavBar()
-		setupViews()
+		setupLoadingView()
 	}
 	
 	// MARK: - Setup views
@@ -55,6 +62,7 @@ class BikeSpotListScreen: UIViewController, MyViewUpdateDelegate {
 		self.view.backgroundColor = Asset.color.backgroundSecondary
 		self.view.addSubview(contentView)
 		self.view.addSubview(tableView)
+		loadingView.isHidden = true
 		
 		NSLayoutConstraint.activate([
 			contentView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -79,6 +87,17 @@ class BikeSpotListScreen: UIViewController, MyViewUpdateDelegate {
 		navigationController?.navigationBar.scrollEdgeAppearance = appearance
 	}
 	
+	func setupLoadingView() {
+		self.view.addSubview(loadingView)
+		
+		NSLayoutConstraint.activate([
+			loadingView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+			loadingView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+			loadingView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+			loadingView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+		])
+	}
+	
 	// MARK: - Inits
 	
 	init(viewModel: BikeSpotListViewModelProtocol) {
@@ -94,8 +113,8 @@ class BikeSpotListScreen: UIViewController, MyViewUpdateDelegate {
 	func update() {
 		DispatchQueue.main.async {
 			self.tableView.reloadData()
+			self.setupViews()
 		}
-		print("UPDATED")
 	}
 }
 
@@ -136,6 +155,9 @@ extension BikeSpotListScreen: UITableViewDelegate, UITableViewDataSource {
 	}
 }
 
+// MARK: - Preview
+#if DEBUG
 #Preview("BikeSpotListScreen") {
 	BikeSpotListScreen(viewModel: BikeSpotListViewModel())
 }
+#endif
