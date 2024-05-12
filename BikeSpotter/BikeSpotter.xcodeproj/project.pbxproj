@@ -36,6 +36,7 @@
 		3B95A8E62BF0A716003F52F5 /* SpotDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95A8E52BF0A716003F52F5 /* SpotDataMapper.swift */; };
 		3B95A8E82BF0AE8E003F52F5 /* Sign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95A8E72BF0AE8E003F52F5 /* Sign.swift */; };
 		3B95A8EA2BF0B141003F52F5 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95A8E92BF0B141003F52F5 /* LoadingView.swift */; };
+		3B95A8EC2BF0B602003F52F5 /* BikeSpotViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95A8EB2BF0B602003F52F5 /* BikeSpotViewCellViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,7 @@
 		3B95A8E52BF0A716003F52F5 /* SpotDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotDataMapper.swift; sourceTree = "<group>"; };
 		3B95A8E72BF0AE8E003F52F5 /* Sign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sign.swift; sourceTree = "<group>"; };
 		3B95A8E92BF0B141003F52F5 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		3B95A8EB2BF0B602003F52F5 /* BikeSpotViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BikeSpotViewCellViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				3B16F04F2BEBBE1D00CF64DC /* BikeSpotListViewModel.swift */,
+				3B95A8EB2BF0B602003F52F5 /* BikeSpotViewCellViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -449,6 +452,7 @@
 				3B95A8CE2BEE2BCE003F52F5 /* BikeSpotViewCell.swift in Sources */,
 				3B95A8E62BF0A716003F52F5 /* SpotDataMapper.swift in Sources */,
 				3B8BEDAF2BED1ACD004B1064 /* StationModel.swift in Sources */,
+				3B95A8EC2BF0B602003F52F5 /* BikeSpotViewCellViewModel.swift in Sources */,
 				3B95A8DB2BEF4C24003F52F5 /* StationData.swift in Sources */,
 				3B95A8EA2BF0B141003F52F5 /* LoadingView.swift in Sources */,
 				3B16F0192BEBA62900CF64DC /* ViewController.swift in Sources */,

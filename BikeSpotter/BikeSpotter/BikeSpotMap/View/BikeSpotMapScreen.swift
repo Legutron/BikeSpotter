@@ -162,7 +162,7 @@ extension BikeSpotMapScreen: MKMapViewDelegate {
 				latitude: 51.11022974300518,
 				longitude: 16.880345184560777
 			),
-			bikeAvailableValueLabel: 22
+			bikeAvailableValueLabel: "22"
 		)
 	)
 }

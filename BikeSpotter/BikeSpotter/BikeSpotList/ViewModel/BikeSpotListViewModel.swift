@@ -12,7 +12,7 @@ protocol MyViewUpdateDelegate: AnyObject {
 }
 
 protocol BikeSpotListViewModelProtocol {
-	var stations: [StationModel] { get }
+	var cellViewModels: [BikeSpotViewCellViewModel] { get }
 	var delegate: MyViewUpdateDelegate? { get set }
 	func stationTapped(id: String)
 	func fetchData()
@@ -23,6 +23,7 @@ final class BikeSpotListViewModel: BikeSpotListViewModelProtocol {
 	weak var delegate: MyViewUpdateDelegate?
 	
 	@Published var stations: [StationModel] = []
+	@Published var cellViewModels: [BikeSpotViewCellViewModel] = []
 	
 	var isLocationPermissionGranted: Bool = false
 	
@@ -37,6 +38,9 @@ final class BikeSpotListViewModel: BikeSpotListViewModelProtocol {
 		do {
 			let stations = try await Api.shared.fetchStations()
 			self.stations = stations.map { StationModel(spotData: $0) }
+			self.cellViewModels = stations.map {
+				BikeSpotViewCellViewModel(spotData: $0)
+			}
 			delegate?.update()
 		} catch {
 			print(error.localizedDescription)
@@ -44,12 +48,12 @@ final class BikeSpotListViewModel: BikeSpotListViewModelProtocol {
 	}
 	
 	func stationTapped(id: String) {
-		if let station = stations.first(where: { $0.id == id }) {
+//		if let station = stations.first(where: { $0.id == id }) {
 //			goToStationMap(
 //				lat: station.,
 //				lon: station.lon
 //			)
-		}
+//		}
 	}
 	
 	private func getUserLocation() {

@@ -122,32 +122,24 @@ class BikeSpotListScreen: UIViewController, MyViewUpdateDelegate {
 
 extension BikeSpotListScreen: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return viewModel.stations.count
+		return viewModel.cellViewModels.count
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier) as! BikeSpotViewCell
-		let station = viewModel.stations[indexPath.row]
-		cell.setupWithData(
-			label: station.name,
-			distance: station.distance,
-			address: station.address,
-			bikeAvailableValueLabel: String(station.numBikesAvailable),
-			placeAvailableValueLabel: String(station.numDocksAvailable),
-			bikeAvailableLabel: "Bike Available",
-			placeAvailableLabel: "Place Available"
-		)
+		let cellModel = viewModel.cellViewModels[indexPath.row]
+		cell.setupCell(viewModel: cellModel)
 		cell.selectionStyle = .none
 		return cell
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		let station = viewModel.stations[indexPath.row]
+		let station = viewModel.cellViewModels[indexPath.row]
 		navigationController?.pushViewController(
 			BikeSpotMapScreen(
 				viewModel: BikeSpotMapViewModel(
 					stationLocation: station.location, 
-					bikeAvailableValueLabel: station.numBikesAvailable
+					bikeAvailableValueLabel: station.bikeAvailableValue
 				)
 			),
 			animated: true

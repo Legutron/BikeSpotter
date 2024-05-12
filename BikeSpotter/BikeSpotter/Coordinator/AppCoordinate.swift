@@ -36,7 +36,7 @@ class AppCoordinator : Coordinator {
 	func goToStationMap(stationLocation: CLLocation) {
 		let bikeSpotMapViewModel = BikeSpotMapViewModel(
 			stationLocation: stationLocation,
-			bikeAvailableValueLabel: 22
+			bikeAvailableValueLabel: "22"
 		)
 		let bikeSpotMapScreen = BikeSpotMapScreen(viewModel: bikeSpotMapViewModel)
 //		bikeSpotMapViewModel.appCoordinator = self

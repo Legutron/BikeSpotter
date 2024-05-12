@@ -148,11 +148,7 @@ class BikeSpotViewCell: UITableViewCell {
 	}()
 	
 	// MARK: - Properties
-	var label: String? = nil
-	var distance: String? = nil
-	var address: String? = nil
-	var spotBikeValue: SpotValueModel? = nil
-	var spotPlacesValue: SpotValueModel? = nil
+	private var viewModel: BikeSpotViewCellViewModelProtocol?
 	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -197,30 +193,31 @@ class BikeSpotViewCell: UITableViewCell {
 		])
 	}
 	
-	func setupWithData(
-		label: String,
-		distance: String?,
-		address: String,
-		bikeAvailableValueLabel: String,
-		placeAvailableValueLabel: String,
-		bikeAvailableLabel: String,
-		placeAvailableLabel: String
-	) {
-		self.label = label
-		self.distance = distance
-		self.address = address
+	func setupCell(viewModel: BikeSpotViewCellViewModelProtocol) {
+		self.viewModel = viewModel
+		setupData()
+	}
+	
+	func setupData() {
+		self.titleLabel.text = self.viewModel?.label
+		self.distanceLabel.text = self.viewModel?.distance
+		self.addressLabel.text = self.viewModel?.address
 		
-		self.titleLabel.text = label
-		self.distanceLabel.text = distance
-		self.addressLabel.text = address
+		self.bikeAvailableValueLabel.text = self.viewModel?.bikeAvailableValue
+		self.placeAvailableValueLabel.text = self.viewModel?.placeAvailableValue
+		self.bikeAvailableLabel.text = self.viewModel?.bikeAvailableLabel
+		self.placeAvailableLabel.text = self.viewModel?.placeAvailableLabel
 		
-		self.bikeAvailableValueLabel.text = bikeAvailableValueLabel
-		self.placeAvailableValueLabel.text = placeAvailableValueLabel
-		self.bikeAvailableLabel.text = bikeAvailableLabel
-		self.placeAvailableLabel.text = placeAvailableLabel
+		self.bikeAvailableValueLabel.textColor = self.viewModel?.bikeLabelColor
 	}
 }
 
+// MARK: - Preview
+#if DEBUG
 #Preview("BikeSpotViewCell") {
-	BikeSpotViewCell()
+	BikeSpotViewCell(
+		style: .default,
+		reuseIdentifier: nil
+	)
 }
+#endif
