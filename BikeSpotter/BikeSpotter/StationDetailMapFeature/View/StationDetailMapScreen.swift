@@ -151,7 +151,7 @@ extension StationDetailMapScreen: MKMapViewDelegate {
 		directions.calculate { (response, error) -> Void in
 			guard let response = response else {
 				if let error = error {
-					print("Error: \(error)")
+					print("🔴 Error: \(error.localizedDescription)")
 				}
 				return
 			}
