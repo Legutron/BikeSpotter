@@ -10,6 +10,14 @@ import MapKit
 import CoreLocation
 
 class BikeSpotMapScreen: UIViewController {
+	enum Constants {
+		static let mapEdgeInsets: UIEdgeInsets = .init(
+			top: 50,
+			left: 50,
+			bottom: 200,
+			right: 50
+		)
+	}
 	
 	// MARK: - UI
 	lazy var contentView: UIView = {
@@ -147,12 +155,11 @@ extension BikeSpotMapScreen: MKMapViewDelegate {
 		let directionRequest = MKDirections.Request()
 		directionRequest.source = sourceMapItem
 		directionRequest.destination = destinationMapItem
-		directionRequest.transportType = .automobile
+		directionRequest.transportType = .walking // setting walking direction
 
 		let directions = MKDirections(request: directionRequest)
 
-		directions.calculate {
-			(response, error) -> Void in
+		directions.calculate { (response, error) -> Void in
 			guard let response = response else {
 				if let error = error {
 					print("Error: \(error)")
@@ -162,7 +169,7 @@ extension BikeSpotMapScreen: MKMapViewDelegate {
 			let route = response.routes[0]
 			self.mapView.addOverlay((route.polyline), level: MKOverlayLevel.aboveRoads)
 			let rect = route.polyline.boundingMapRect
-			self.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
+			self.mapView.setVisibleMapRect(rect, edgePadding: Constants.mapEdgeInsets, animated: true)
 		}
 	}
 }
