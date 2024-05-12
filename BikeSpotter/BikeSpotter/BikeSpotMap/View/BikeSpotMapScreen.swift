@@ -10,6 +10,14 @@ import MapKit
 import CoreLocation
 
 class BikeSpotMapScreen: UIViewController {
+	enum Constants {
+		static let mapEdgeInsets: UIEdgeInsets = .init(
+			top: 50,
+			left: 50,
+			bottom: 200,
+			right: 50
+		)
+	}
 	
 	// MARK: - UI
 	lazy var contentView: UIView = {
@@ -40,6 +48,7 @@ class BikeSpotMapScreen: UIViewController {
 		super.viewDidLoad()
 		setupLocationManager()
 		setupViews()
+		setupStationDetailView()
 		addCustomPin()
 		if let userLocation = viewModel.userLocation {
 			showRouteOnMap(
@@ -60,6 +69,19 @@ class BikeSpotMapScreen: UIViewController {
 			mapView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
 			mapView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
 			mapView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+		])
+	}
+	
+	func setupStationDetailView() {
+		let detailView = StationDetailView()
+		detailView.setupData(viewModel: viewModel.stationDetailViewModel)
+		detailView.translatesAutoresizingMaskIntoConstraints = false
+		self.view.addSubview(detailView)
+		
+		NSLayoutConstraint.activate([
+			detailView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+			detailView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+			detailView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
 		])
 	}
 	
@@ -133,12 +155,11 @@ extension BikeSpotMapScreen: MKMapViewDelegate {
 		let directionRequest = MKDirections.Request()
 		directionRequest.source = sourceMapItem
 		directionRequest.destination = destinationMapItem
-		directionRequest.transportType = .automobile
+		directionRequest.transportType = .walking // setting walking direction
 
 		let directions = MKDirections(request: directionRequest)
 
-		directions.calculate {
-			(response, error) -> Void in
+		directions.calculate { (response, error) -> Void in
 			guard let response = response else {
 				if let error = error {
 					print("Error: \(error)")
@@ -148,22 +169,28 @@ extension BikeSpotMapScreen: MKMapViewDelegate {
 			let route = response.routes[0]
 			self.mapView.addOverlay((route.polyline), level: MKOverlayLevel.aboveRoads)
 			let rect = route.polyline.boundingMapRect
-			self.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
+			self.mapView.setVisibleMapRect(rect, edgePadding: Constants.mapEdgeInsets, animated: true)
 		}
 	}
 }
 
 // MARK: - Preview
+#warning("TO DO")
 #if DEBUG
-#Preview("BikeSpotMapScreen") {
-	BikeSpotMapScreen(
-		viewModel: BikeSpotMapViewModel(
-			stationLocation: .init(
-				latitude: 51.11022974300518,
-				longitude: 16.880345184560777
-			),
-			bikeAvailableValueLabel: "22"
-		)
-	)
-}
+//#Preview("BikeSpotMapScreen") {
+//	BikeSpotMapScreen(
+//		viewModel: BikeSpotMapViewModel(
+//			stationLocation: .init(
+//				latitude: 51.11022974300518,
+//				longitude: 16.880345184560777
+//			),
+//			bikeAvailableValueLabel: "22", 
+//			stationDetailViewModel: StationDetailViewModel(
+//				spotData: .init(
+//				station: <#T##Station#>,
+//				status: <#T##StationStatusModel#>)
+//			)
+//		)
+//	)
+//}
 #endif
