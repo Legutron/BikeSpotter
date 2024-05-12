@@ -78,13 +78,17 @@ class BikeSpotListScreen: UIViewController, MyViewUpdateDelegate {
 	}
 	
 	func setupNavBar() {
-		navigationController?.navigationBar.prefersLargeTitles = false
 		let appearance = UINavigationBarAppearance()
 		appearance.backgroundColor = Asset.color.backgroundNavbar
-		navigationController?.navigationBar.tintColor = .white
-		navigationController?.navigationBar.standardAppearance = appearance
-		navigationController?.navigationBar.compactAppearance = appearance
-		navigationController?.navigationBar.scrollEdgeAppearance = appearance
+		if let backIcon = UIImage(named: Asset.image.backIcon) {
+			appearance.setBackIndicatorImage(backIcon, transitionMaskImage: backIcon)
+		}
+		self.navigationController?.navigationBar.tintColor = .white
+		self.navigationController?.navigationBar.standardAppearance = appearance
+		self.navigationController?.navigationBar.compactAppearance = appearance
+		self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+		self.navigationController?.navigationBar.prefersLargeTitles = false
+		navigationItem.backButtonTitle = Sign.empty
 	}
 	
 	func setupLoadingView() {

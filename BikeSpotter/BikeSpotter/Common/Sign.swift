@@ -9,4 +9,5 @@ import Foundation
 
 enum Sign {
 	static let spacer: String = " "
+	static let empty: String = ""
 }
