@@ -40,6 +40,7 @@ class BikeSpotMapScreen: UIViewController {
 		super.viewDidLoad()
 		setupLocationManager()
 		setupViews()
+		setupStationDetailView()
 		addCustomPin()
 		if let userLocation = viewModel.userLocation {
 			showRouteOnMap(
@@ -60,6 +61,19 @@ class BikeSpotMapScreen: UIViewController {
 			mapView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
 			mapView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
 			mapView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+		])
+	}
+	
+	func setupStationDetailView() {
+		let detailView = StationDetailView()
+		detailView.setupData(viewModel: viewModel.stationDetailViewModel)
+		detailView.translatesAutoresizingMaskIntoConstraints = false
+		self.view.addSubview(detailView)
+		
+		NSLayoutConstraint.activate([
+			detailView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+			detailView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+			detailView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
 		])
 	}
 	
@@ -154,16 +168,22 @@ extension BikeSpotMapScreen: MKMapViewDelegate {
 }
 
 // MARK: - Preview
+#warning("TO DO")
 #if DEBUG
-#Preview("BikeSpotMapScreen") {
-	BikeSpotMapScreen(
-		viewModel: BikeSpotMapViewModel(
-			stationLocation: .init(
-				latitude: 51.11022974300518,
-				longitude: 16.880345184560777
-			),
-			bikeAvailableValueLabel: "22"
-		)
-	)
-}
+//#Preview("BikeSpotMapScreen") {
+//	BikeSpotMapScreen(
+//		viewModel: BikeSpotMapViewModel(
+//			stationLocation: .init(
+//				latitude: 51.11022974300518,
+//				longitude: 16.880345184560777
+//			),
+//			bikeAvailableValueLabel: "22", 
+//			stationDetailViewModel: StationDetailViewModel(
+//				spotData: .init(
+//				station: <#T##Station#>,
+//				status: <#T##StationStatusModel#>)
+//			)
+//		)
+//	)
+//}
 #endif

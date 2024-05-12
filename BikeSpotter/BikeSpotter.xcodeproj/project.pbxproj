@@ -37,6 +37,8 @@
 		3B95A8E82BF0AE8E003F52F5 /* Sign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95A8E72BF0AE8E003F52F5 /* Sign.swift */; };
 		3B95A8EA2BF0B141003F52F5 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95A8E92BF0B141003F52F5 /* LoadingView.swift */; };
 		3B95A8EC2BF0B602003F52F5 /* BikeSpotViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95A8EB2BF0B602003F52F5 /* BikeSpotViewCellViewModel.swift */; };
+		3B95A8EE2BF111E6003F52F5 /* StationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95A8ED2BF111E6003F52F5 /* StationDetailView.swift */; };
+		3B95A8F02BF113E0003F52F5 /* StaionDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95A8EF2BF113E0003F52F5 /* StaionDetailViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +93,8 @@
 		3B95A8E72BF0AE8E003F52F5 /* Sign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sign.swift; sourceTree = "<group>"; };
 		3B95A8E92BF0B141003F52F5 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		3B95A8EB2BF0B602003F52F5 /* BikeSpotViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BikeSpotViewCellViewModel.swift; sourceTree = "<group>"; };
+		3B95A8ED2BF111E6003F52F5 /* StationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationDetailView.swift; sourceTree = "<group>"; };
+		3B95A8EF2BF113E0003F52F5 /* StaionDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaionDetailViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -253,6 +257,7 @@
 			children = (
 				3B8BEDBC2BEDF746004B1064 /* BikeSpotMapScreen.swift */,
 				3B95A8DC2BEFDCDB003F52F5 /* CustomAnnotationView.swift */,
+				3B95A8ED2BF111E6003F52F5 /* StationDetailView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -261,6 +266,7 @@
 			isa = PBXGroup;
 			children = (
 				3B8BEDBE2BEDF771004B1064 /* BikeSpotMapViewModel.swift */,
+				3B95A8EF2BF113E0003F52F5 /* StaionDetailViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -465,7 +471,9 @@
 				3B95A8D92BEF48D5003F52F5 /* StationStatusModel.swift in Sources */,
 				3B16F0172BEBA62900CF64DC /* SceneDelegate.swift in Sources */,
 				3B95A8E32BF09EA6003F52F5 /* Location.swift in Sources */,
+				3B95A8F02BF113E0003F52F5 /* StaionDetailViewModel.swift in Sources */,
 				3B16F0522BEBBE6700CF64DC /* BikeSpotModel.swift in Sources */,
+				3B95A8EE2BF111E6003F52F5 /* StationDetailView.swift in Sources */,
 				3B8BEDBF2BEDF771004B1064 /* BikeSpotMapViewModel.swift in Sources */,
 				3B95A8E02BF012E0003F52F5 /* AppCoordinate.swift in Sources */,
 				3B95A8E82BF0AE8E003F52F5 /* Sign.swift in Sources */,

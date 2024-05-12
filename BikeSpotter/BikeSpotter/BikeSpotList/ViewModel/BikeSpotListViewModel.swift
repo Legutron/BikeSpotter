@@ -19,7 +19,6 @@ protocol BikeSpotListViewModelProtocol {
 }
 
 final class BikeSpotListViewModel: BikeSpotListViewModelProtocol {
-	weak var appCoordinator: AppCoordinator!
 	weak var delegate: MyViewUpdateDelegate?
 	
 	@Published var stations: [StationModel] = []

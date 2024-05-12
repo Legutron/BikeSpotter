@@ -143,7 +143,8 @@ extension BikeSpotListScreen: UITableViewDelegate, UITableViewDataSource {
 			BikeSpotMapScreen(
 				viewModel: BikeSpotMapViewModel(
 					stationLocation: station.location, 
-					bikeAvailableValueLabel: station.bikeAvailableValue
+					bikeAvailableValueLabel: station.bikeAvailableValue, 
+					stationDetailViewModel: StationDetailViewModel(spotData: station)
 				)
 			),
 			animated: true
