@@ -6,11 +6,16 @@
 //
 
 import UIKit
+import MapKit
+import CoreLocation
 
 class BikeSpotMapScreen: UIViewController {
 	enum Constants {
 		static let padding: CGFloat = 16
 	}
+	
+	var locationManager: CLLocationManager?
+	var routeOverlay: MKOverlay?
 	
 	// MARK: - UI
 	lazy var contentView: UIView = {
@@ -19,35 +24,61 @@ class BikeSpotMapScreen: UIViewController {
 		return vw
 	}()
 	
+	lazy var mapView: MKMapView = {
+		let map = MKMapView()
+		map.translatesAutoresizingMaskIntoConstraints = false
+		map.showsUserLocation = true
+		map.delegate = self
+		map.setUserTrackingMode(.follow, animated:true)
+		map.register(CustomAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+		map.tintColor = Asset.color.backgroundActive
+		return map
+	}()
+	
 	// MARK: - Properties
 	
-	private let viewModel: BikeSpotListViewModelProtocol
+	private let viewModel: BikeSpotMapViewModelProtocol
 	
 	// MARK: - Lifecycle
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		setupLocationManager()
 		setupViews()
+		addCustomPin()
+		if let userLocation = viewModel.userLocation {
+			showRouteOnMap(
+				pickupCoordinate: userLocation.coordinate,
+				destinationCoordinate: viewModel.stationLocation.coordinate
+			)
+		}
 	}
 	
 	// MARK: - Setup views
 	
 	func setupViews() {
 		self.view.backgroundColor = Asset.color.backgroundSecondary
-		self.view.addSubview(contentView)
+		self.view.addSubview(mapView)
 		
 		NSLayoutConstraint.activate([
-			contentView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-			contentView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 8),
-			contentView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-			contentView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-			contentView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+			mapView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+			mapView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+			mapView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+			mapView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
 		])
 	}
 	
-	// MARK: - Inits
+	func setupLocationManager() {
+		self.locationManager = CLLocationManager()
+		self.locationManager?.delegate = self
+		self.locationManager?.requestWhenInUseAuthorization()
+		self.locationManager?.requestLocation()
+		if let userLocation = self.locationManager?.location {
+			viewModel.setUserLocation(location: userLocation)
+		}
+	}
 	
-	init(viewModel: BikeSpotListViewModelProtocol) {
+	init(viewModel: BikeSpotMapViewModelProtocol) {
 		self.viewModel = viewModel
 		super.init(nibName: nil, bundle: nil)
 	}
@@ -57,6 +88,74 @@ class BikeSpotMapScreen: UIViewController {
 	}
 }
 
-#Preview("BikeSpotListScreen") {
-	BikeSpotMapScreen(viewModel: BikeSpotListViewModel())
+extension BikeSpotMapScreen: CLLocationManagerDelegate {
+	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+		return
+	}
+	
+	func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
+		print(error)
+	}
+}
+
+extension BikeSpotMapScreen: MKMapViewDelegate {
+	func addCustomPin() {
+		let pin = MKPointAnnotation()
+		pin.coordinate = viewModel.stationLocation.coordinate
+		mapView.addAnnotation(pin)
+	}
+	
+	func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+		if annotation is MKUserLocation {
+			return nil
+		} else {
+			let annotationView: CustomAnnotationProtocol = CustomAnnotationView(annotation: annotation, reuseIdentifier: "custom")
+			annotationView.setData(value: 22)
+			return annotationView as? MKAnnotationView
+		}
+	}
+	
+	func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+		let renderer = MKPolylineRenderer(overlay: overlay)
+		renderer.strokeColor = Asset.color.backgroundActive
+		renderer.lineWidth = 3.0
+		renderer.lineDashPattern = [2,6]
+		return renderer
+	}
+	
+	func showRouteOnMap(pickupCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D) {
+		let sourcePlacemark = MKPlacemark(coordinate: pickupCoordinate, addressDictionary: nil)
+		let destinationPlacemark = MKPlacemark(coordinate: destinationCoordinate, addressDictionary: nil)
+		let sourceMapItem = MKMapItem(placemark: sourcePlacemark)
+		let destinationMapItem = MKMapItem(placemark: destinationPlacemark)
+		
+		let directionRequest = MKDirections.Request()
+		directionRequest.source = sourceMapItem
+		directionRequest.destination = destinationMapItem
+		directionRequest.transportType = .automobile
+
+		let directions = MKDirections(request: directionRequest)
+
+		directions.calculate {
+			(response, error) -> Void in
+			guard let response = response else {
+				if let error = error {
+					print("Error: \(error)")
+				}
+				return
+			}
+			let route = response.routes[0]
+			self.mapView.addOverlay((route.polyline), level: MKOverlayLevel.aboveRoads)
+			let rect = route.polyline.boundingMapRect
+			self.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
+		}
+	}
+}
+
+#Preview("BikeSpotMapScreen") {
+	BikeSpotMapScreen(
+		viewModel: BikeSpotMapViewModel(stationLocation: .init(
+			latitude: 51.11022974300518,
+		 longitude: 16.880345184560777
+	 )))
 }

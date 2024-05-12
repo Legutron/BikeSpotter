@@ -125,9 +125,19 @@ extension BikeSpotListScreen: UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		navigationController?.pushViewController(UIViewController(), animated: true)
+		let station = viewModel.stations[indexPath.row]
+		navigationController?.pushViewController(
+			BikeSpotMapScreen(
+				viewModel: BikeSpotMapViewModel(
+					stationLocation: .init(
+						latitude: station.lat,
+						longitude: station.lon
+					)
+				)
+			),
+			animated: true
+		)
 	}
-	
 }
 
 #Preview("BikeSpotListScreen") {

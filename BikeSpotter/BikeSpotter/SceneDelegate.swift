@@ -23,6 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		let nav = UINavigationController(rootViewController: vc)
 		self.window?.rootViewController = nav
 		window?.makeKeyAndVisible()
+//		guard let _ = (scene as? UIWindowScene) else { return }
 	}
 
 	func sceneDidDisconnect(_ scene: UIScene) {

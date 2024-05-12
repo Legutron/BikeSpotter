@@ -22,6 +22,7 @@ public struct AppColors {
 	let backgroundPrimary = UIColor(named: "background_primary")
 	let backgroundSecondary = UIColor(named: "background_secondary")
 	let backgroundNavbar = UIColor(named: "background_navbar")
+	let backgroundActive = UIColor(named: "background_active")
 	let contentPositive = UIColor(named: "content_positive")
 	let contentNegative = UIColor(named: "content_negative")
 }
