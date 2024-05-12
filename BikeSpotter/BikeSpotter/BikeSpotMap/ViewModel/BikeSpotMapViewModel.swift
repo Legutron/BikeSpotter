@@ -6,23 +6,43 @@
 //
 
 import Foundation
+import CoreLocation
 
 protocol BikeSpotMapViewModelProtocol {
-	var stations: [StationModel] { get }
-	func onLoad()
-	func stationPicked(id: String)
+	var userLocation: CLLocation? { get }
+	var stationLocation: CLLocation { get }
+	var bikeAvailableValueLabel: Int { get }
+	func setUserLocation(location: CLLocation)
 }
 
 final class BikeSpotMapViewModel: BikeSpotMapViewModelProtocol {
+	weak var coordinator: AppCoordinator!
 	
-	@Published var stations: [StationModel] = [.mock]
+	@Published var userLocation: CLLocation?
+	@Published var stationLocation: CLLocation
+	@Published var bikeAvailableValueLabel: Int
 	
-	func onLoad() {
-		print("LOADED")
+	init(
+		userLocation: CLLocation? = nil,
+		stationLocation: CLLocation,
+		bikeAvailableValueLabel: Int
+	) {
+		self.userLocation = userLocation
+		self.stationLocation = stationLocation
+		self.bikeAvailableValueLabel = bikeAvailableValueLabel
 	}
 	
-	func stationPicked(id: String) {
-		print("Tapped station id: \(id)")
+	func setUserLocation(location: CLLocation) {
+		self.userLocation = location
+	}
+	
+	func goToStationList() {
+		coordinator.goToStationList()
 	}
 }
+
+//	.init(
+//		latitude: 51.11022974300518,
+//		longitude: 16.880345184560777
+//	)
 

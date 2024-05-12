@@ -22,14 +22,14 @@ public class Api {
 		self.decoder = decoder
 	}
 	
-	func fetchStationInformation(localizationKey: String = "GDA") async throws -> [StationSpotData] {
-		async let stations = try fetchStations()
+	func fetchStations() async throws -> [StationSpotData] {
+		async let stations = try fetchStationInformation()
 		async let statuses = try fetchStationStatuses()
-		let data = try await StationData(station: stations, status: statuses)
-		return data.filterByLocalization(localizationKey: .gda)
+		let data = try await StationData(stations: stations, statuses: statuses)
+		return data.filteredActive()
 	}
 	
-	func fetchStations() async throws -> StationInformationModel {
+	private func fetchStationInformation() async throws -> StationInformationModel {
 		guard let url: URL = .init(string: ApiKeys.stationInfoURL) else {
 			throw ApiError.invalidURL("Unknown URL")
 		}
@@ -49,7 +49,7 @@ public class Api {
 		return stations
 	}
 	
-	func fetchStationStatuses() async throws -> StationStatusesModel {
+	private func fetchStationStatuses() async throws -> StationStatusesModel {
 		guard let url: URL = .init(string: ApiKeys.stationStatusURL) else {
 			throw ApiError.invalidURL("Unknown URL")
 		}

@@ -12,18 +12,22 @@ protocol MyViewUpdateDelegate: AnyObject {
 }
 
 protocol BikeSpotListViewModelProtocol {
-	var stations: [Station] { get }
+	var stations: [StationModel] { get }
 	var delegate: MyViewUpdateDelegate? { get set }
+	func stationTapped(id: String)
 	func fetchData()
 }
 
 final class BikeSpotListViewModel: BikeSpotListViewModelProtocol {
-	
-	@Published var stations: [Station] = []
-	
+	weak var appCoordinator: AppCoordinator!
 	weak var delegate: MyViewUpdateDelegate?
 	
+	@Published var stations: [StationModel] = []
+	
+	var isLocationPermissionGranted: Bool = false
+	
 	func fetchData() {
+		getUserLocation()
 		Task.init {
 			await fetchStations()
 		}
@@ -31,12 +35,30 @@ final class BikeSpotListViewModel: BikeSpotListViewModelProtocol {
 	
 	private func fetchStations() async {
 		do {
-			let sections = try await Api.shared.fetchStations()
-			self.stations = sections.data.stations
+			let stations = try await Api.shared.fetchStations()
+			self.stations = stations.map { StationModel(spotData: $0) }
 			delegate?.update()
 		} catch {
 			print(error.localizedDescription)
 		}
 	}
+	
+	func stationTapped(id: String) {
+		if let station = stations.first(where: { $0.id == id }) {
+//			goToStationMap(
+//				lat: station.,
+//				lon: station.lon
+//			)
+		}
+	}
+	
+	private func getUserLocation() {
+		Location.shared.requestUserLocation()
+		self.isLocationPermissionGranted = Location.shared.isPermissionGranted
+	}
+	
+	private func goToStationMap(lat: Double, lon: Double) {
+//		appCoordinator.goToStationMap(stationLocation: .init(latitude: 12.1234, longitude: 12.3214))
+	 }
 }
 
