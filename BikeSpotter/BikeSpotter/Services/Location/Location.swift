@@ -26,8 +26,19 @@ public class Location: NSObject {
 		self.isPermissionGranted = isPermissionGranted
 	}
 	
+	//	.init(
+	//		latitude: 51.11022974300518,
+	//		longitude: 16.880345184560777
+	//	)
+	
 	func requestUserLocation() {
 		self.locationManager.requestWhenInUseAuthorization()
+		Task.init {
+			await updatePermissionStatus()
+		}
+	}
+	
+	func updatePermissionStatus() async {
 		if CLLocationManager.locationServicesEnabled() {
 			self.locationManager.delegate = self
 			self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
