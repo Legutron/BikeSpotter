@@ -11,6 +11,18 @@ import CoreLocation
 struct StationSpotData {
 	let station: Station
 	let status: StationStatusModel
+	var distance: Int?
+	
+	var distanceLabel: String? {
+		if let distance {
+			return String(distance) +
+			Sign.metersUnit +
+			Sign.spacer +
+			Sign.middleDot +
+			Sign.spacer
+		}
+		return nil
+	}
 	
 	var name: String {
 		let name: [String] = [
