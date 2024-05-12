@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class BikeSpotMapScreen: UIViewController {
+class BikeSpotMapScreen: UIViewController, MyViewUpdateDelegate {
 	enum Constants {
 		static let mapEdgeInsets: UIEdgeInsets = .init(
 			top: 50,
@@ -17,6 +17,7 @@ class BikeSpotMapScreen: UIViewController {
 			bottom: 200,
 			right: 50
 		)
+		static let defaultDistance: Double = 500
 	}
 	
 	// MARK: - UI
@@ -38,24 +39,18 @@ class BikeSpotMapScreen: UIViewController {
 	}()
 	
 	// MARK: - Properties
-	private let viewModel: BikeSpotMapViewModelProtocol
-	var locationManager: CLLocationManager?
+	private var viewModel: BikeSpotMapViewModelProtocol
 	var routeOverlay: MKOverlay?
 	
 	// MARK: - Lifecycle
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		setupLocationManager()
-		setupViews()
-		setupStationDetailView()
-		addCustomPin()
-		if let userLocation = viewModel.userLocation {
-			showRouteOnMap(
-				pickupCoordinate: userLocation.coordinate,
-				destinationCoordinate: viewModel.stationLocation.coordinate
-			)
-		}
+		self.viewModel.delegate = self
+		self.viewModel.requestUserLocation()
+		self.setupViews()
+		self.setupStationDetailView()
+		self.addCustomPin()
 	}
 	
 	// MARK: - Setup views
@@ -85,16 +80,6 @@ class BikeSpotMapScreen: UIViewController {
 		])
 	}
 	
-	func setupLocationManager() {
-		self.locationManager = CLLocationManager()
-		self.locationManager?.delegate = self
-		self.locationManager?.requestWhenInUseAuthorization()
-		self.locationManager?.requestLocation()
-		if let userLocation = self.locationManager?.location {
-			viewModel.setUserLocation(location: userLocation)
-		}
-	}
-	
 	// MARK: - Inits
 	
 	init(viewModel: BikeSpotMapViewModelProtocol) {
@@ -105,17 +90,17 @@ class BikeSpotMapScreen: UIViewController {
 	required init?(coder: NSCoder) {
 		nil
 	}
-}
-
-// MARK: - CLLocationManagerDelegate
-
-extension BikeSpotMapScreen: CLLocationManagerDelegate {
-	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-		return
-	}
 	
-	func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
-		print(error)
+	// MARK: - Behaviour
+	func update() {
+		DispatchQueue.main.async {
+			if let userLocation = self.viewModel.userLocation {
+				self.showRouteOnMap(
+					pickupCoordinate: userLocation.coordinate,
+					destinationCoordinate: self.viewModel.stationLocation.coordinate
+				)
+			}
+		}
 	}
 }
 
@@ -126,6 +111,14 @@ extension BikeSpotMapScreen: MKMapViewDelegate {
 		let pin = MKPointAnnotation()
 		pin.coordinate = viewModel.stationLocation.coordinate
 		mapView.addAnnotation(pin)
+		self.mapView.setRegion(
+			MKCoordinateRegion(
+				center: pin.coordinate,
+				latitudinalMeters: Constants.defaultDistance,
+				longitudinalMeters: Constants.defaultDistance
+			),
+			animated: true
+		)
 	}
 	
 	func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {

@@ -8,15 +8,20 @@
 import Foundation
 import CoreLocation
 
+
 protocol BikeSpotMapViewModelProtocol {
+	var delegate: MyViewUpdateDelegate? { get set }
+	
 	var userLocation: CLLocation? { get }
 	var stationLocation: CLLocation { get }
 	var bikeAvailableValueLabel: String { get }
 	var stationDetailViewModel: StationDetailViewModelProtocol { get }
-	func setUserLocation(location: CLLocation)
+	func requestUserLocation()
 }
 
 final class BikeSpotMapViewModel: BikeSpotMapViewModelProtocol {
+	weak var delegate: MyViewUpdateDelegate?
+	
 	@Published var userLocation: CLLocation?
 	@Published var stationLocation: CLLocation
 	@Published var bikeAvailableValueLabel: String
@@ -34,8 +39,17 @@ final class BikeSpotMapViewModel: BikeSpotMapViewModelProtocol {
 		self.stationDetailViewModel = stationDetailViewModel
 	}
 	
-	func setUserLocation(location: CLLocation) {
-		self.userLocation = location
+	func requestUserLocation() {
+		Location.shared.requestUserLocation()
+		if
+			Location.shared.isPermissionGranted,
+			let userLocation = Location.shared.currentLocation
+		{
+			self.userLocation = userLocation
+			delegate?.update()
+		} else {
+			self.userLocation = nil
+		}
 	}
 }
 

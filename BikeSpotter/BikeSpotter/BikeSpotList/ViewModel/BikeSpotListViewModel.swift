@@ -12,8 +12,9 @@ protocol MyViewUpdateDelegate: AnyObject {
 }
 
 protocol BikeSpotListViewModelProtocol {
-	var cellViewModels: [BikeSpotViewCellViewModel] { get }
 	var delegate: MyViewUpdateDelegate? { get set }
+	
+	var cellViewModels: [BikeSpotViewCellViewModel] { get }
 	func stationTapped(id: String)
 	func fetchData()
 }
