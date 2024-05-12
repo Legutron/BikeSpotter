@@ -41,7 +41,10 @@ public class Api {
 		}
 		return data
 	}
-	
+}
+
+// MARK: - Helpers
+extension Api {
 	private func fetchStationInformation() async throws -> StationInformationModel {
 		guard let url: URL = .init(string: ApiKeys.stationInfoURL) else {
 			throw ApiError.invalidURL("Unknown URL")

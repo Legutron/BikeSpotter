@@ -8,10 +8,12 @@
 import Foundation
 import CoreLocation
 
+protocol StationDetailMapNotifyDelegate: AnyObject {
+	func userLocationUpdated()
+}
 
 protocol StationDetailMapViewModelProtocol {
-	var delegate: MyViewUpdateDelegate? { get set }
-	
+	var delegate: StationDetailMapNotifyDelegate? { get set }
 	var userLocation: CLLocation? { get }
 	var stationLocation: CLLocation { get }
 	var bikeAvailableValueLabel: String { get }
@@ -20,7 +22,7 @@ protocol StationDetailMapViewModelProtocol {
 }
 
 final class StationDetailMapViewModel: StationDetailMapViewModelProtocol {
-	weak var delegate: MyViewUpdateDelegate?
+	weak var delegate: StationDetailMapNotifyDelegate?
 	
 	@Published var userLocation: CLLocation?
 	@Published var stationLocation: CLLocation
@@ -46,15 +48,9 @@ final class StationDetailMapViewModel: StationDetailMapViewModelProtocol {
 			let userLocation = Location.shared.currentLocation
 		{
 			self.userLocation = userLocation
-			delegate?.update()
+			delegate?.userLocationUpdated()
 		} else {
 			self.userLocation = nil
 		}
 	}
 }
-
-//	.init(
-//		latitude: 51.11022974300518,
-//		longitude: 16.880345184560777
-//	)
-

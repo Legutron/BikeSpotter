@@ -38,3 +38,43 @@ extension StationData {
 		CLLocation(latitude: station.lat, longitude: station.lon)
 	}
 }
+
+// MARK: - Mocks
+#if DEBUG
+extension StationData {
+	static let mock: Self = .init(
+		station: .mock,
+		status: .mock,
+		distance: 500
+	)
+}
+
+extension Station {
+	static let mock: Self = .init(
+		stationID: "4971",
+		name: "GDA370",
+		address: "Lawendowe wzgórze",
+		crossStreet: "GDA370",
+		lat: 54.3272251,
+		lon: 18.5602068,
+		isVirtualStation: true,
+		capacity: 10,
+		stationArea: .init(type: .multiPolygon, coordinates: []),
+		rentalUris: .init(android: "", ios: "")
+	)
+}
+
+extension StationStatusModel {
+	static let mock: Self = .init(
+		stationID: "4971",
+		isInstalled: true,
+		isRenting: true,
+		isReturning: true,
+		lastReported: 2,
+		numVehiclesAvailable: 6,
+		numBikesAvailable: 6,
+		numDocksAvailable: 8,
+		vehicleTypesAvailable: []
+	)
+}
+#endif

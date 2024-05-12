@@ -13,7 +13,9 @@ final class StationDetailView: UIView {
 		static let bottomPadding: CGFloat = 64
 		static let spacing: CGFloat = 8
 		static let cornerRadius: CGFloat = 24
+		static let titleLabelHeight: CGFloat = 30
 	}
+	
 	// MARK: - UI
 	private lazy var contentView: UIView = {
 		let view = UIView()
@@ -34,7 +36,7 @@ final class StationDetailView: UIView {
 	private lazy var distanceLabel: UILabel = {
 		let lbl = UILabel()
 		lbl.translatesAutoresizingMaskIntoConstraints = false
-		lbl.font = .systemFont(ofSize: 16, weight: .bold)
+		lbl.font = .systemFont(ofSize: 12, weight: .bold)
 		lbl.setContentHuggingPriority(.required, for: .horizontal)
 		return lbl
 	}()
@@ -42,7 +44,7 @@ final class StationDetailView: UIView {
 	private lazy var addressLabel: UILabel = {
 		let lbl = UILabel()
 		lbl.translatesAutoresizingMaskIntoConstraints = false
-		lbl.font = .systemFont(ofSize: 16, weight: .regular)
+		lbl.font = .systemFont(ofSize: 12, weight: .regular)
 		lbl.setContentHuggingPriority(.defaultLow, for: .horizontal)
 		return lbl
 	}()
@@ -92,14 +94,14 @@ final class StationDetailView: UIView {
 	private lazy var bikeAvailableLabel: UILabel = {
 		let lbl = UILabel()
 		lbl.translatesAutoresizingMaskIntoConstraints = false
-		lbl.font = .systemFont(ofSize: 16, weight: .regular)
+		lbl.font = .systemFont(ofSize: 12, weight: .regular)
 		return lbl
 	}()
 	
 	private lazy var placeAvailableLabel: UILabel = {
 		let lbl = UILabel()
 		lbl.translatesAutoresizingMaskIntoConstraints = false
-		lbl.font = .systemFont(ofSize: 16, weight: .regular)
+		lbl.font = .systemFont(ofSize: 12, weight: .regular)
 		return lbl
 	}()
 	
@@ -111,7 +113,7 @@ final class StationDetailView: UIView {
 		])
 		vw.translatesAutoresizingMaskIntoConstraints = false
 		vw.axis = .vertical
-		vw.spacing = 8
+		vw.spacing = Constants.spacing
 		vw.alignment = .center
 		vw.distribution = .fillProportionally
 		return vw
@@ -125,7 +127,7 @@ final class StationDetailView: UIView {
 		])
 		vw.translatesAutoresizingMaskIntoConstraints = false
 		vw.axis = .vertical
-		vw.spacing = 8
+		vw.spacing = Constants.spacing
 		vw.alignment = .center
 		vw.distribution = .fillProportionally
 		return vw
@@ -138,7 +140,7 @@ final class StationDetailView: UIView {
 		])
 		vw.translatesAutoresizingMaskIntoConstraints = false
 		vw.axis = .horizontal
-		vw.spacing = 8
+		vw.spacing = Constants.spacing
 		vw.alignment = .center
 		vw.distribution = .fillEqually
 		return vw
@@ -148,14 +150,12 @@ final class StationDetailView: UIView {
 	private var viewModel: StationDetailViewModelProtocol?
 	
 	// MARK: - Inits -
-	
 	convenience init() {
 		self.init(frame: .zero)
 		setupViews()
 	}
 	
 	// MARK: - Setup -
-	
 	func setupViews() {
 		self.addSubview(contentView)
 		self.addSubview(titleLabel)
@@ -169,16 +169,16 @@ final class StationDetailView: UIView {
 			contentView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
 			
 			titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.padding),
-			titleLabel.heightAnchor.constraint(equalToConstant: 30),
+			titleLabel.heightAnchor.constraint(equalToConstant: Constants.titleLabelHeight),
 			titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.padding),
 			titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.padding),
 			
 			subtitleStack.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-			subtitleStack.heightAnchor.constraint(equalToConstant: 30),
+			subtitleStack.heightAnchor.constraint(equalToConstant: Constants.titleLabelHeight),
 			subtitleStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.padding),
 			subtitleStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.padding),
 			
-			valuesStack.topAnchor.constraint(equalTo: subtitleStack.bottomAnchor, constant: 8),
+			valuesStack.topAnchor.constraint(equalTo: subtitleStack.bottomAnchor, constant: Constants.spacing),
 			valuesStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.padding),
 			valuesStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.padding),
 			valuesStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.bottomPadding),
@@ -198,6 +198,4 @@ final class StationDetailView: UIView {
 		
 		self.bikeAvailableValueLabel.textColor = self.viewModel?.bikeLabelColor
 	}
-	
 }
-

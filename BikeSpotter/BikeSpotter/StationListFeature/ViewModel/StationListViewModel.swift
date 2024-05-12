@@ -7,25 +7,19 @@
 
 import Foundation
 
-protocol MyViewUpdateDelegate: AnyObject {
-	func update()
+protocol StationListNotifyDelegate: AnyObject {
+	func stationsUpdated()
 }
 
 protocol StationListViewModelProtocol {
-	var delegate: MyViewUpdateDelegate? { get set }
-	
+	var delegate: StationListNotifyDelegate? { get set }
 	var cellViewModels: [StationListCellViewModel] { get }
-	func stationTapped(id: String)
 	func fetchData()
 }
 
 final class StationListViewModel: StationListViewModelProtocol {
-	weak var delegate: MyViewUpdateDelegate?
-	
-	@Published var stations: [StationModel] = []
+	weak var delegate: StationListNotifyDelegate?
 	@Published var cellViewModels: [StationListCellViewModel] = []
-	
-	var isLocationPermissionGranted: Bool = false
 	
 	func fetchData() {
 		getUserLocation()
@@ -37,32 +31,16 @@ final class StationListViewModel: StationListViewModelProtocol {
 	private func fetchStations() async {
 		do {
 			let stations = try await Api.shared.fetchStations()
-			self.stations = stations.map { StationModel(stationData: $0) }
 			self.cellViewModels = stations.map {
 				StationListCellViewModel(stationData: $0)
 			}
-			delegate?.update()
+			delegate?.stationsUpdated()
 		} catch {
 			print(error.localizedDescription)
 		}
 	}
 	
-	func stationTapped(id: String) {
-//		if let station = stations.first(where: { $0.id == id }) {
-//			goToStationMap(
-//				lat: station.,
-//				lon: station.lon
-//			)
-//		}
-	}
-	
 	private func getUserLocation() {
 		Location.shared.requestUserLocation()
-		self.isLocationPermissionGranted = Location.shared.isPermissionGranted
 	}
-	
-	private func goToStationMap(lat: Double, lon: Double) {
-//		appCoordinator.goToStationMap(stationLocation: .init(latitude: 12.1234, longitude: 12.3214))
-	 }
 }
-

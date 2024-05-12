@@ -1,60 +1,15 @@
 //
-//  File.swift
+//  MapPinView.swift
 //  BikeSpotter
 //
-//  Created by Jakub Legut on 11/05/2024.
+//  Created by Jakub Legut on 12/05/2024.
 //
 
 import UIKit
-import MapKit
-
-protocol StationAnnotationPinProtocol {
-	func setData(value: String)
-}
-
-final class StationAnnotationPinView: MKAnnotationView, StationAnnotationPinProtocol {
-	// MARK: - Properties
-	var pinView: MapPinView?
-	
-	// MARK: - Initialization
-
-	override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
-		super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
-
-		frame = CGRect(x: 0, y: 0, width: 40, height: 50)
-		centerOffset = CGPoint(x: 0, y: -frame.size.height / 2)
-
-		canShowCallout = true
-		setup()
-	}
-
-	@available(*, unavailable)
-	required init?(coder aDecoder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
-
-	// MARK: - Setup
-
-	private func setup() {
-		backgroundColor = .clear
-		pinView = MapPinView()
-		if let pinView {
-			self.addSubview(pinView)
-			pinView.frame = bounds
-		}
-	}
-	
-	public func setData(value: String) {
-		pinView?.setData(value: value)
-	}
-}
-
-// MARK: - MapPinView
 
 class MapPinView: UIView {
 	
 	// MARK: - UI
-	
 	private lazy var bikeImageView: UIImageView = {
 		let imageView = UIImageView()
 		imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -84,7 +39,6 @@ class MapPinView: UIView {
 	}()
 
 	// MARK: - Inits
-	
 	init() {
 		super.init(frame: .zero)
 		setupViews()
@@ -93,7 +47,6 @@ class MapPinView: UIView {
 	required init?(coder aDecoder: NSCoder) { nil }
 	
 	// MARK: - Setup
-	
 	private func setupViews() {
 		self.translatesAutoresizingMaskIntoConstraints = false
 		self.addSubview(stack)

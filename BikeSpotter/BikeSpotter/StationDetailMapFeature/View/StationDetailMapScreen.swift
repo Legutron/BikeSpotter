@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class StationDetailMapScreen: UIViewController, MyViewUpdateDelegate {
+class StationDetailMapScreen: UIViewController, StationDetailMapNotifyDelegate {
 	enum Constants {
 		static let mapEdgeInsets: UIEdgeInsets = .init(
 			top: 50,
@@ -18,6 +18,7 @@ class StationDetailMapScreen: UIViewController, MyViewUpdateDelegate {
 			right: 50
 		)
 		static let defaultDistance: Double = 500
+		static let lineWidth: CGFloat = 2.0
 	}
 	
 	// MARK: - UI
@@ -40,10 +41,8 @@ class StationDetailMapScreen: UIViewController, MyViewUpdateDelegate {
 	
 	// MARK: - Properties
 	private var viewModel: StationDetailMapViewModelProtocol
-	var routeOverlay: MKOverlay?
 	
 	// MARK: - Lifecycle
-	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.viewModel.delegate = self
@@ -54,7 +53,6 @@ class StationDetailMapScreen: UIViewController, MyViewUpdateDelegate {
 	}
 	
 	// MARK: - Setup views
-	
 	func setupViews() {
 		self.view.backgroundColor = Asset.color.backgroundSecondary
 		self.view.addSubview(mapView)
@@ -81,7 +79,6 @@ class StationDetailMapScreen: UIViewController, MyViewUpdateDelegate {
 	}
 	
 	// MARK: - Inits
-	
 	init(viewModel: StationDetailMapViewModelProtocol) {
 		self.viewModel = viewModel
 		super.init(nibName: nil, bundle: nil)
@@ -91,8 +88,8 @@ class StationDetailMapScreen: UIViewController, MyViewUpdateDelegate {
 		nil
 	}
 	
-	// MARK: - Behaviour
-	func update() {
+	// MARK: - Notify Actions
+	func userLocationUpdated() {
 		DispatchQueue.main.async {
 			if let userLocation = self.viewModel.userLocation {
 				self.showRouteOnMap(
@@ -105,7 +102,6 @@ class StationDetailMapScreen: UIViewController, MyViewUpdateDelegate {
 }
 
 // MARK: - MKMapViewDelegate
-
 extension StationDetailMapScreen: MKMapViewDelegate {
 	func addCustomPin() {
 		let pin = MKPointAnnotation()
@@ -134,7 +130,7 @@ extension StationDetailMapScreen: MKMapViewDelegate {
 	func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
 		let renderer = MKPolylineRenderer(overlay: overlay)
 		renderer.strokeColor = Asset.color.backgroundActive
-		renderer.lineWidth = 3.0
+		renderer.lineWidth = Constants.lineWidth
 		renderer.lineDashPattern = [2,6]
 		return renderer
 	}
@@ -168,22 +164,19 @@ extension StationDetailMapScreen: MKMapViewDelegate {
 }
 
 // MARK: - Preview
-#warning("TO DO")
 #if DEBUG
-//#Preview("StationDetailMapScreen") {
-//	StationDetailMapScreen(
-//		viewModel: StationDetailMapViewModel(
-//			stationLocation: .init(
-//				latitude: 51.11022974300518,
-//				longitude: 16.880345184560777
-//			),
-//			bikeAvailableValueLabel: "22", 
-//			stationDetailViewModel: StationDetailViewModel(
-//				stationData: .init(
-//				station: <#T##Station#>,
-//				status: <#T##StationStatusModel#>)
-//			)
-//		)
-//	)
-//}
+#Preview("StationDetailMapScreen") {
+	StationDetailMapScreen(
+		viewModel: StationDetailMapViewModel(
+			stationLocation: .init(
+				latitude: 54.375998,
+				longitude: 18.626554
+			),
+			bikeAvailableValueLabel: Translations.bikesValueLabel,
+			stationDetailViewModel: StationDetailViewModel(
+				stationData: .init(stationData: .mock)
+			)
+		)
+	)
+}
 #endif

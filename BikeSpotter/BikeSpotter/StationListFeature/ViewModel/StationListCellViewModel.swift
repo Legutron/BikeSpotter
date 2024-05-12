@@ -38,7 +38,9 @@ class StationListCellViewModel: StationListCellViewModelProtocol {
 		self.label = stationData.name
 		self.distance = stationData.distanceLabel
 		self.address = stationData.station.address
-		self.bikeLabelColor = (stationData.status.numBikesAvailable > 0 ) ? Asset.color.contentPositive ?? .green : Asset.color.contentNegative ?? .red
+		self.bikeLabelColor = (stationData.status.numBikesAvailable > 0 ) 
+		? Asset.color.contentPositive ?? .green
+		: Asset.color.contentNegative ?? .red
 		self.bikeAvailableValue = String(stationData.status.numBikesAvailable)
 		self.placeAvailableValue = String(stationData.status.numDocksAvailable)
 		self.bikeAvailableLabel = Translations.bikesValueLabel

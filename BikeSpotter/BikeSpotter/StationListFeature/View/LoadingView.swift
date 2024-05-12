@@ -19,14 +19,12 @@ final class LoadingView: UIView {
 	}()
 	
 	// MARK: - Inits -
-	
 	convenience init() {
 		self.init(frame: .zero)
 		setupViews()
 	}
 	
 	// MARK: - Setup -
-	
 	private func setupViews() {
 		self.addSubview(progressView)
 
@@ -35,5 +33,4 @@ final class LoadingView: UIView {
 			progressView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
 		])
 	}
-	
 }
