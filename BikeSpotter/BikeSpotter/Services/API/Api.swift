@@ -22,7 +22,12 @@ public class Api {
 	}
 	
 	func fetchStations() async throws -> [StationData] {
-		// fetching data on the asynchronously using async let
+		/*
+		COMMENT:
+		fetching data on the asynchronously using async let,
+		it would be nice to use pagination here and send the user coordinates data
+		to received sorted items.
+		*/
 		async let stations = try fetchStationInformation()
 		async let statuses = try fetchStationStatuses()
 		

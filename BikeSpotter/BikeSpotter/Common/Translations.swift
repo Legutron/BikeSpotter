@@ -8,6 +8,7 @@
 import Foundation
 
 /* 
+COMMENT:
 it's good to use SwiftGen to generate translation and also
 keep translations on the external tools like POEditor and fetching them by using fastlane
  */
