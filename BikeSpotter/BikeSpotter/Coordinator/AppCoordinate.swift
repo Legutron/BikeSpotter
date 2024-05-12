@@ -34,7 +34,10 @@ class AppCoordinator : Coordinator {
 		navigationController.pushViewController(bikeSpotListScreen, animated: true)
 	}
 	func goToStationMap(stationLocation: CLLocation) {
-		let bikeSpotMapViewModel = BikeSpotMapViewModel(stationLocation: stationLocation)
+		let bikeSpotMapViewModel = BikeSpotMapViewModel(
+			stationLocation: stationLocation,
+			bikeAvailableValueLabel: 22
+		)
 		let bikeSpotMapScreen = BikeSpotMapScreen(viewModel: bikeSpotMapViewModel)
 //		bikeSpotMapViewModel.appCoordinator = self
 		navigationController.pushViewController(bikeSpotMapScreen, animated: true)

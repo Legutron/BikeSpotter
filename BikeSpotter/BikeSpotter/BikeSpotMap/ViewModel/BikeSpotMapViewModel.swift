@@ -11,6 +11,7 @@ import CoreLocation
 protocol BikeSpotMapViewModelProtocol {
 	var userLocation: CLLocation? { get }
 	var stationLocation: CLLocation { get }
+	var bikeAvailableValueLabel: Int { get }
 	func setUserLocation(location: CLLocation)
 }
 
@@ -19,10 +20,16 @@ final class BikeSpotMapViewModel: BikeSpotMapViewModelProtocol {
 	
 	@Published var userLocation: CLLocation?
 	@Published var stationLocation: CLLocation
+	@Published var bikeAvailableValueLabel: Int
 	
-	init(userLocation: CLLocation? = nil, stationLocation: CLLocation) {
+	init(
+		userLocation: CLLocation? = nil,
+		stationLocation: CLLocation,
+		bikeAvailableValueLabel: Int
+	) {
 		self.userLocation = userLocation
 		self.stationLocation = stationLocation
+		self.bikeAvailableValueLabel = bikeAvailableValueLabel
 	}
 	
 	func setUserLocation(location: CLLocation) {

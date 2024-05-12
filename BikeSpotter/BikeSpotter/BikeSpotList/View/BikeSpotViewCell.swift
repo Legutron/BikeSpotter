@@ -148,7 +148,6 @@ class BikeSpotViewCell: UITableViewCell {
 	}()
 	
 	// MARK: - Properties
-	var id: String? = nil
 	var label: String? = nil
 	var distance: String? = nil
 	var address: String? = nil
@@ -199,16 +198,14 @@ class BikeSpotViewCell: UITableViewCell {
 	}
 	
 	func setupWithData(
-		id: String,
 		label: String,
-		distance: String,
+		distance: String?,
 		address: String,
 		bikeAvailableValueLabel: String,
 		placeAvailableValueLabel: String,
 		bikeAvailableLabel: String,
 		placeAvailableLabel: String
 	) {
-		self.id = id
 		self.label = label
 		self.distance = distance
 		self.address = address

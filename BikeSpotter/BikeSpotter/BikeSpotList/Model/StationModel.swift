@@ -6,27 +6,31 @@
 //
 
 import Foundation
+import CoreLocation
 
 struct StationModel {
-	let id: Int
+	let id: String
 	let name: String
+	let distance: String?
 	let address: String
-	let crossStreet: String
-	let lat: String
-	let lon: String
-	let capacity: Int
+	let location: CLLocation
+	let numBikesAvailable: Int
+	let numDocksAvailable: Int
 }
 
 #if DEBUG
 extension StationModel {
 	static let mock: Self = .init(
-		id: 4971,
-		name: "GDA370",
-		address: "Lawendowe wzgórze",
-		crossStreet: "GDA370",
-		lat: "54.3272251",
-		lon: "18.5602068",
-		capacity: 10
+		id: "1234",
+		name: "047 Ofiar Dąbia",
+		distance: "Lawendowe wzgórze",
+		address: "Aleja Pokoju 16, Kraków",
+		location: .init(
+			latitude: 51.11022974300518,
+			longitude: 16.880345184560777
+		),
+		numBikesAvailable: 10,
+		numDocksAvailable: 20
 	)
 }
 #endif

@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  BikeSpotMapScreen.swift
 //  BikeSpotter
 //
 //  Created by Jakub Legut on 08/05/2024.
@@ -10,12 +10,6 @@ import MapKit
 import CoreLocation
 
 class BikeSpotMapScreen: UIViewController {
-	enum Constants {
-		static let padding: CGFloat = 16
-	}
-	
-	var locationManager: CLLocationManager?
-	var routeOverlay: MKOverlay?
 	
 	// MARK: - UI
 	lazy var contentView: UIView = {
@@ -36,8 +30,9 @@ class BikeSpotMapScreen: UIViewController {
 	}()
 	
 	// MARK: - Properties
-	
 	private let viewModel: BikeSpotMapViewModelProtocol
+	var locationManager: CLLocationManager?
+	var routeOverlay: MKOverlay?
 	
 	// MARK: - Lifecycle
 	
@@ -78,6 +73,8 @@ class BikeSpotMapScreen: UIViewController {
 		}
 	}
 	
+	// MARK: - Inits
+	
 	init(viewModel: BikeSpotMapViewModelProtocol) {
 		self.viewModel = viewModel
 		super.init(nibName: nil, bundle: nil)
@@ -88,6 +85,8 @@ class BikeSpotMapScreen: UIViewController {
 	}
 }
 
+// MARK: - CLLocationManagerDelegate
+
 extension BikeSpotMapScreen: CLLocationManagerDelegate {
 	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 		return
@@ -97,6 +96,8 @@ extension BikeSpotMapScreen: CLLocationManagerDelegate {
 		print(error)
 	}
 }
+
+// MARK: - MKMapViewDelegate
 
 extension BikeSpotMapScreen: MKMapViewDelegate {
 	func addCustomPin() {
@@ -110,7 +111,7 @@ extension BikeSpotMapScreen: MKMapViewDelegate {
 			return nil
 		} else {
 			let annotationView: CustomAnnotationProtocol = CustomAnnotationView(annotation: annotation, reuseIdentifier: "custom")
-			annotationView.setData(value: 22)
+			annotationView.setData(value: viewModel.bikeAvailableValueLabel)
 			return annotationView as? MKAnnotationView
 		}
 	}
@@ -152,10 +153,17 @@ extension BikeSpotMapScreen: MKMapViewDelegate {
 	}
 }
 
+// MARK: - Preview
+#if DEBUG
 #Preview("BikeSpotMapScreen") {
 	BikeSpotMapScreen(
-		viewModel: BikeSpotMapViewModel(stationLocation: .init(
-			latitude: 51.11022974300518,
-		 longitude: 16.880345184560777
-	 )))
+		viewModel: BikeSpotMapViewModel(
+			stationLocation: .init(
+				latitude: 51.11022974300518,
+				longitude: 16.880345184560777
+			),
+			bikeAvailableValueLabel: 22
+		)
+	)
 }
+#endif

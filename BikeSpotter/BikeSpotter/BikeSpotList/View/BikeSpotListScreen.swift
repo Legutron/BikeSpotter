@@ -9,7 +9,6 @@ import UIKit
 
 class BikeSpotListScreen: UIViewController, MyViewUpdateDelegate {
 	enum Constants {
-		static let padding: CGFloat = 16
 		static let cellIdentifier: String = "station_cell"
 	}
 	
@@ -111,12 +110,11 @@ extension BikeSpotListScreen: UITableViewDelegate, UITableViewDataSource {
 		let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier) as! BikeSpotViewCell
 		let station = viewModel.stations[indexPath.row]
 		cell.setupWithData(
-			id: station.stationID,
-			label: station.address,
-			distance: "500 m ",
-			address: station.crossStreet,
-			bikeAvailableValueLabel: String(station.capacity),
-			placeAvailableValueLabel: String(station.capacity),
+			label: station.name,
+			distance: station.distance,
+			address: station.address,
+			bikeAvailableValueLabel: String(station.numBikesAvailable),
+			placeAvailableValueLabel: String(station.numDocksAvailable),
 			bikeAvailableLabel: "Bike Available",
 			placeAvailableLabel: "Place Available"
 		)
@@ -129,10 +127,8 @@ extension BikeSpotListScreen: UITableViewDelegate, UITableViewDataSource {
 		navigationController?.pushViewController(
 			BikeSpotMapScreen(
 				viewModel: BikeSpotMapViewModel(
-					stationLocation: .init(
-						latitude: station.lat,
-						longitude: station.lon
-					)
+					stationLocation: station.location, 
+					bikeAvailableValueLabel: station.numBikesAvailable
 				)
 			),
 			animated: true

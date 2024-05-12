@@ -13,8 +13,10 @@ protocol CustomAnnotationProtocol {
 }
 
 final class CustomAnnotationView: MKAnnotationView, CustomAnnotationProtocol {
-	// MARK: Initialization
+	// MARK: - Properties
 	var pinView: MapPinView?
+	
+	// MARK: - Initialization
 
 	override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
 		super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
@@ -31,7 +33,7 @@ final class CustomAnnotationView: MKAnnotationView, CustomAnnotationProtocol {
 		fatalError("init(coder:) has not been implemented")
 	}
 
-	// MARK: Setup
+	// MARK: - Setup
 
 	private func setup() {
 		backgroundColor = .clear
@@ -47,7 +49,12 @@ final class CustomAnnotationView: MKAnnotationView, CustomAnnotationProtocol {
 	}
 }
 
+// MARK: - MapPinView
+
 class MapPinView: UIView {
+	
+	// MARK: - UI
+	
 	private lazy var bikeImageView: UIImageView = {
 		let imageView = UIImageView()
 		imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -76,7 +83,7 @@ class MapPinView: UIView {
 		return vw
 	}()
 
-	// MARK: - Inits -
+	// MARK: - Inits
 	
 	init() {
 		super.init(frame: .zero)
@@ -84,6 +91,8 @@ class MapPinView: UIView {
 	}
 	
 	required init?(coder aDecoder: NSCoder) { nil }
+	
+	// MARK: - Setup
 	
 	private func setupViews() {
 		self.translatesAutoresizingMaskIntoConstraints = false
@@ -104,6 +113,9 @@ class MapPinView: UIView {
 	}
 }
 
+// MARK: - Preview
+#if DEBUG
 #Preview("MapPinView") {
 	MapPinView()
 }
+#endif

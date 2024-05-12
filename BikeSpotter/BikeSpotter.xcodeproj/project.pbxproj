@@ -32,6 +32,9 @@
 		3B95A8DB2BEF4C24003F52F5 /* StationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95A8DA2BEF4C24003F52F5 /* StationData.swift */; };
 		3B95A8DD2BEFDCDB003F52F5 /* CustomAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95A8DC2BEFDCDB003F52F5 /* CustomAnnotationView.swift */; };
 		3B95A8E02BF012E0003F52F5 /* AppCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95A8DF2BF012E0003F52F5 /* AppCoordinate.swift */; };
+		3B95A8E32BF09EA6003F52F5 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95A8E22BF09EA6003F52F5 /* Location.swift */; };
+		3B95A8E62BF0A716003F52F5 /* SpotDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95A8E52BF0A716003F52F5 /* SpotDataMapper.swift */; };
+		3B95A8E82BF0AE8E003F52F5 /* Sign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95A8E72BF0AE8E003F52F5 /* Sign.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +84,9 @@
 		3B95A8DA2BEF4C24003F52F5 /* StationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationData.swift; sourceTree = "<group>"; };
 		3B95A8DC2BEFDCDB003F52F5 /* CustomAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotationView.swift; sourceTree = "<group>"; };
 		3B95A8DF2BF012E0003F52F5 /* AppCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinate.swift; sourceTree = "<group>"; };
+		3B95A8E22BF09EA6003F52F5 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		3B95A8E52BF0A716003F52F5 /* SpotDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotDataMapper.swift; sourceTree = "<group>"; };
+		3B95A8E72BF0AE8E003F52F5 /* Sign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sign.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +173,7 @@
 		3B16F0442BEBA68B00CF64DC /* BikeSpotList */ = {
 			isa = PBXGroup;
 			children = (
+				3B95A8E42BF0A70A003F52F5 /* Mapper */,
 				3B16F0482BEBBDAB00CF64DC /* ViewModel */,
 				3B16F0472BEBBDA600CF64DC /* View */,
 				3B16F0462BEBBD9E00CF64DC /* Model */,
@@ -206,6 +213,7 @@
 			children = (
 				3B8BEDB52BEDE84E004B1064 /* Extensions */,
 				3B8BEDB32BEDE7BF004B1064 /* Asset.swift */,
+				3B95A8E72BF0AE8E003F52F5 /* Sign.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -254,6 +262,7 @@
 		3B95A8CF2BEE3653003F52F5 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				3B95A8E12BF09E95003F52F5 /* Location */,
 				3B95A8D32BEE3698003F52F5 /* Models */,
 				3B95A8D02BEE3657003F52F5 /* API */,
 			);
@@ -285,6 +294,22 @@
 				3B95A8DF2BF012E0003F52F5 /* AppCoordinate.swift */,
 			);
 			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		3B95A8E12BF09E95003F52F5 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				3B95A8E22BF09EA6003F52F5 /* Location.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
+		3B95A8E42BF0A70A003F52F5 /* Mapper */ = {
+			isa = PBXGroup;
+			children = (
+				3B95A8E52BF0A716003F52F5 /* SpotDataMapper.swift */,
+			);
+			path = Mapper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -419,6 +444,7 @@
 			files = (
 				3B8BEDB42BEDE7BF004B1064 /* Asset.swift in Sources */,
 				3B95A8CE2BEE2BCE003F52F5 /* BikeSpotViewCell.swift in Sources */,
+				3B95A8E62BF0A716003F52F5 /* SpotDataMapper.swift in Sources */,
 				3B8BEDAF2BED1ACD004B1064 /* StationModel.swift in Sources */,
 				3B95A8DB2BEF4C24003F52F5 /* StationData.swift in Sources */,
 				3B16F0192BEBA62900CF64DC /* ViewController.swift in Sources */,
@@ -430,9 +456,11 @@
 				3B16F0502BEBBE1D00CF64DC /* BikeSpotListViewModel.swift in Sources */,
 				3B95A8D92BEF48D5003F52F5 /* StationStatusModel.swift in Sources */,
 				3B16F0172BEBA62900CF64DC /* SceneDelegate.swift in Sources */,
+				3B95A8E32BF09EA6003F52F5 /* Location.swift in Sources */,
 				3B16F0522BEBBE6700CF64DC /* BikeSpotModel.swift in Sources */,
 				3B8BEDBF2BEDF771004B1064 /* BikeSpotMapViewModel.swift in Sources */,
 				3B95A8E02BF012E0003F52F5 /* AppCoordinate.swift in Sources */,
+				3B95A8E82BF0AE8E003F52F5 /* Sign.swift in Sources */,
 				3B16F05A2BEC9B8900CF64DC /* Assets.swift in Sources */,
 				3B95A8D22BEE3667003F52F5 /* Api.swift in Sources */,
 				3B95A8DD2BEFDCDB003F52F5 /* CustomAnnotationView.swift in Sources */,
