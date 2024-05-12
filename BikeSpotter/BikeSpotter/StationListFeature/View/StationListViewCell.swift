@@ -174,8 +174,8 @@ class StationListViewCell: UITableViewCell {
 		self.addSubview(valuesStack)
 		
 		NSLayoutConstraint.activate([
-			cellView.topAnchor.constraint(equalTo: self.topAnchor, constant: Constants.spacing),
-			cellView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -Constants.spacing),
+			cellView.topAnchor.constraint(equalTo: self.topAnchor, constant: Constants.padding),
+			cellView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
 			cellView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.padding),
 			cellView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.padding),
 			

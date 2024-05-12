@@ -22,7 +22,7 @@ class StationListScreen: UIViewController, StationListNotifyDelegate {
 	}()
 	
 	private lazy var tableView: UITableView = {
-		let tableView = UITableView(frame: .zero, style: .grouped)
+		let tableView = UITableView(frame: .zero, style: .plain)
 		tableView.translatesAutoresizingMaskIntoConstraints = false
 		tableView.backgroundColor = Asset.color.backgroundSecondary
 		tableView.separatorStyle = .none
@@ -30,7 +30,6 @@ class StationListScreen: UIViewController, StationListNotifyDelegate {
 		tableView.rowHeight = Constants.rowHeight
 		tableView.dataSource = self
 		tableView.delegate = self
-		tableView.contentInsetAdjustmentBehavior = .never
 		tableView.register(StationListViewCell.self, forCellReuseIdentifier: Constants.cellIdentifier)
 		return tableView
 	}()
