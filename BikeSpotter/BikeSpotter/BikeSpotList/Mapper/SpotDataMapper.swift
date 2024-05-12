@@ -9,7 +9,7 @@ import Foundation
 import CoreLocation
 
 extension StationModel {
-	init(spotData: StationSpotData) {
+	init(spotData: StationData) {
 		self.id = spotData.station.stationID
 		self.name = spotData.name
 		self.distance = nil

@@ -32,7 +32,7 @@ class BikeSpotViewCellViewModel: BikeSpotViewCellViewModelProtocol {
 	@Published var bikeAvailableLabel: String
 	@Published var placeAvailableLabel: String
 	
-	init(spotData: StationSpotData) {
+	init(spotData: StationData) {
 		self.stationID = spotData.station.stationID
 		self.location = spotData.location
 		self.label = spotData.name

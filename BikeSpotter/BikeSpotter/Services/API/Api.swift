@@ -12,9 +12,8 @@ enum ApiKeys {
 	static let stationStatusURL: String = "https://gbfs.urbansharing.com/rowermevo.pl/station_status.json"
 }
 
+// Singleton pattern
 public class Api {
-	
-	// Singleton
 	static let shared = Api(decoder: .init())
 	let decoder: JSONDecoder
 	
@@ -22,10 +21,13 @@ public class Api {
 		self.decoder = decoder
 	}
 	
-	func fetchStations() async throws -> [StationSpotData] {
+	func fetchStations() async throws -> [StationData] {
+		// fetching data on the asynchronously using async let
 		async let stations = try fetchStationInformation()
 		async let statuses = try fetchStationStatuses()
-		var data = try await StationData(stations: stations, statuses: statuses).filteredActive()
+		
+		var data = try await ApiMapper.transform(stations: stations, statuses: statuses)
+		
 		if let userLocation = Location.shared.currentLocation {
 			data = data.map { station in
 				var updatedStation = station

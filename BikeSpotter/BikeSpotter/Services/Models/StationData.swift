@@ -8,11 +8,13 @@
 import Foundation
 import CoreLocation
 
-struct StationSpotData {
+struct StationData {
 	let station: Station
 	let status: StationStatusModel
 	var distance: Int?
-	
+}
+
+extension StationData {
 	var distanceLabel: String? {
 		if let distance {
 			return String(distance) +
@@ -34,29 +36,5 @@ struct StationSpotData {
 	
 	var location: CLLocation {
 		CLLocation(latitude: station.lat, longitude: station.lon)
-	}
-}
-
-struct StationData {
-	var stations: StationInformationModel
-	var statuses: StationStatusesModel
-	
-	func setSpotData() -> [StationSpotData] {
-		return stations.data.stations.compactMap { station in
-			if let status = statuses.data.stations.first(where: { $0.stationID == station.stationID }) {
-				return StationSpotData(
-					station: station,
-					status: status
-				)
-			}
-			return nil
-		}
-	}
-}
-
-extension StationData {
-	func filteredActive() -> [StationSpotData] {
-		let spotData = setSpotData()
-		return spotData.filter({ $0.status.isRenting == true })
 	}
 }
