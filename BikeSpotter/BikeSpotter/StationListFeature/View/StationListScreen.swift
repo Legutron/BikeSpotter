@@ -44,17 +44,25 @@ class StationListScreen: UIViewController, StationListNotifyDelegate {
 	
 	// MARK: - Properties
 	private var viewModel: StationListViewModelProtocol
+	private let refreshControl = UIRefreshControl()
 	
 	// MARK: - Lifecycle
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		viewModel.delegate = self
 		viewModel.fetchData()
+		setPullToRefreash()
 		setupNavBar()
 		setupLoadingView()
 	}
 	
 	// MARK: - Setup views
+	func setPullToRefreash() {
+		refreshControl.tintColor = Asset.color.backgroundActive
+		refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+		tableView.addSubview(refreshControl)
+	}
+	
 	func setupNavBar() {
 		let appearance = UINavigationBarAppearance()
 		appearance.backgroundColor = Asset.color.backgroundNavbar
@@ -112,9 +120,16 @@ class StationListScreen: UIViewController, StationListNotifyDelegate {
 	// MARK: - Notify Actions
 	func stationsUpdated() {
 		DispatchQueue.main.async {
+			self.refreshControl.endRefreshing()
 			self.tableView.reloadData()
 			self.setupViews()
 		}
+	}
+	
+	// MARK: - Behaviors
+	@objc 
+	func refresh(_ sender: AnyObject) {
+		self.viewModel.fetchData()
 	}
 }
 
