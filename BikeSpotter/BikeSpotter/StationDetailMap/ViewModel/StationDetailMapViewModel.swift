@@ -1,5 +1,5 @@
 //
-//  ViewModel.swift
+//  StationDetailMapViewModel.swift
 //  BikeSpotter
 //
 //  Created by Jakub Legut on 08/05/2024.
@@ -9,7 +9,7 @@ import Foundation
 import CoreLocation
 
 
-protocol BikeSpotMapViewModelProtocol {
+protocol StationDetailMapViewModelProtocol {
 	var delegate: MyViewUpdateDelegate? { get set }
 	
 	var userLocation: CLLocation? { get }
@@ -19,7 +19,7 @@ protocol BikeSpotMapViewModelProtocol {
 	func requestUserLocation()
 }
 
-final class BikeSpotMapViewModel: BikeSpotMapViewModelProtocol {
+final class StationDetailMapViewModel: StationDetailMapViewModelProtocol {
 	weak var delegate: MyViewUpdateDelegate?
 	
 	@Published var userLocation: CLLocation?

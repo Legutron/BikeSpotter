@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BikeSpotListScreen: UIViewController, MyViewUpdateDelegate {
+class StationListScreen: UIViewController, MyViewUpdateDelegate {
 	enum Constants {
 		static let cellIdentifier: String = "station_cell"
 	}
@@ -30,7 +30,7 @@ class BikeSpotListScreen: UIViewController, MyViewUpdateDelegate {
 		tableView.dataSource = self
 		tableView.delegate = self
 		tableView.contentInsetAdjustmentBehavior = .never
-		tableView.register(BikeSpotViewCell.self, forCellReuseIdentifier: Constants.cellIdentifier)
+		tableView.register(StationListViewCell.self, forCellReuseIdentifier: Constants.cellIdentifier)
 		
 		return tableView
 	}()
@@ -44,7 +44,7 @@ class BikeSpotListScreen: UIViewController, MyViewUpdateDelegate {
 	
 	// MARK: - Properties
 	
-	private var viewModel: BikeSpotListViewModelProtocol
+	private var viewModel: StationListViewModelProtocol
 	
 	// MARK: - Lifecycle
 	
@@ -104,7 +104,7 @@ class BikeSpotListScreen: UIViewController, MyViewUpdateDelegate {
 	
 	// MARK: - Inits
 	
-	init(viewModel: BikeSpotListViewModelProtocol) {
+	init(viewModel: StationListViewModelProtocol) {
 		self.viewModel = viewModel
 		super.init(nibName: nil, bundle: nil)
 	}
@@ -124,13 +124,13 @@ class BikeSpotListScreen: UIViewController, MyViewUpdateDelegate {
 
 // MARK: - UITableViewDelegate
 
-extension BikeSpotListScreen: UITableViewDelegate, UITableViewDataSource {
+extension StationListScreen: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return viewModel.cellViewModels.count
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier) as! BikeSpotViewCell
+		let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier) as! StationListViewCell
 		let cellModel = viewModel.cellViewModels[indexPath.row]
 		cell.setupCell(viewModel: cellModel)
 		cell.selectionStyle = .none
@@ -140,11 +140,11 @@ extension BikeSpotListScreen: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let station = viewModel.cellViewModels[indexPath.row]
 		navigationController?.pushViewController(
-			BikeSpotMapScreen(
-				viewModel: BikeSpotMapViewModel(
+			StationDetailMapScreen(
+				viewModel: StationDetailMapViewModel(
 					stationLocation: station.location, 
 					bikeAvailableValueLabel: station.bikeAvailableValue, 
-					stationDetailViewModel: StationDetailViewModel(spotData: station)
+					stationDetailViewModel: StationDetailViewModel(stationData: station)
 				)
 			),
 			animated: true
@@ -154,7 +154,7 @@ extension BikeSpotListScreen: UITableViewDelegate, UITableViewDataSource {
 
 // MARK: - Preview
 #if DEBUG
-#Preview("BikeSpotListScreen") {
-	BikeSpotListScreen(viewModel: BikeSpotListViewModel())
+#Preview("StationListScreen") {
+	StationListScreen(viewModel: StationListViewModel())
 }
 #endif

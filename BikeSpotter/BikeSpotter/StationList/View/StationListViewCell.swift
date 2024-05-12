@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BikeSpotViewCell: UITableViewCell {
+class StationListViewCell: UITableViewCell {
 	enum Constants {
 		static let padding: CGFloat = 16
 		static let spacing: CGFloat = 8
@@ -148,7 +148,7 @@ class BikeSpotViewCell: UITableViewCell {
 	}()
 	
 	// MARK: - Properties
-	private var viewModel: BikeSpotViewCellViewModelProtocol?
+	private var viewModel: StationListCellViewModelProtocol?
 	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -193,7 +193,7 @@ class BikeSpotViewCell: UITableViewCell {
 		])
 	}
 	
-	func setupCell(viewModel: BikeSpotViewCellViewModelProtocol) {
+	func setupCell(viewModel: StationListCellViewModelProtocol) {
 		self.viewModel = viewModel
 		setupData()
 	}
@@ -214,8 +214,8 @@ class BikeSpotViewCell: UITableViewCell {
 
 // MARK: - Preview
 #if DEBUG
-#Preview("BikeSpotViewCell") {
-	BikeSpotViewCell(
+#Preview("StationListViewCell") {
+	StationListViewCell(
 		style: .default,
 		reuseIdentifier: nil
 	)

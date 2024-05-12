@@ -8,11 +8,11 @@
 import UIKit
 import MapKit
 
-protocol CustomAnnotationProtocol {
+protocol StationAnnotationPinProtocol {
 	func setData(value: String)
 }
 
-final class CustomAnnotationView: MKAnnotationView, CustomAnnotationProtocol {
+final class StationAnnotationPinView: MKAnnotationView, StationAnnotationPinProtocol {
 	// MARK: - Properties
 	var pinView: MapPinView?
 	

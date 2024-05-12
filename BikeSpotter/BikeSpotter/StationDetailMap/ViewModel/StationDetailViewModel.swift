@@ -32,16 +32,16 @@ class StationDetailViewModel: StationDetailViewModelProtocol {
 	@Published var bikeAvailableLabel: String
 	@Published var placeAvailableLabel: String
 	
-	init(spotData: BikeSpotViewCellViewModel) {
-		self.stationID = spotData.stationID
-		self.location = spotData.location
-		self.label = spotData.label
-		self.address = spotData.address
-		self.bikeLabelColor = spotData.bikeLabelColor
-		self.bikeAvailableValue = spotData.bikeAvailableValue
-		self.placeAvailableValue = spotData.placeAvailableValue
-		self.bikeAvailableLabel = spotData.bikeAvailableLabel
-		self.placeAvailableLabel = spotData.placeAvailableLabel
+	init(stationData: StationListCellViewModel) {
+		self.stationID = stationData.stationID
+		self.location = stationData.location
+		self.label = stationData.label
+		self.address = stationData.address
+		self.bikeLabelColor = stationData.bikeLabelColor
+		self.bikeAvailableValue = stationData.bikeAvailableValue
+		self.placeAvailableValue = stationData.placeAvailableValue
+		self.bikeAvailableLabel = stationData.bikeAvailableLabel
+		self.placeAvailableLabel = stationData.placeAvailableLabel
 	}
 }
 

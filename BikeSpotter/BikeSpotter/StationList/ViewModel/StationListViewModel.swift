@@ -1,5 +1,5 @@
 //
-//  ViewModel.swift
+//  StationListViewModel.swift
 //  BikeSpotter
 //
 //  Created by Jakub Legut on 08/05/2024.
@@ -11,19 +11,19 @@ protocol MyViewUpdateDelegate: AnyObject {
 	func update()
 }
 
-protocol BikeSpotListViewModelProtocol {
+protocol StationListViewModelProtocol {
 	var delegate: MyViewUpdateDelegate? { get set }
 	
-	var cellViewModels: [BikeSpotViewCellViewModel] { get }
+	var cellViewModels: [StationListCellViewModel] { get }
 	func stationTapped(id: String)
 	func fetchData()
 }
 
-final class BikeSpotListViewModel: BikeSpotListViewModelProtocol {
+final class StationListViewModel: StationListViewModelProtocol {
 	weak var delegate: MyViewUpdateDelegate?
 	
 	@Published var stations: [StationModel] = []
-	@Published var cellViewModels: [BikeSpotViewCellViewModel] = []
+	@Published var cellViewModels: [StationListCellViewModel] = []
 	
 	var isLocationPermissionGranted: Bool = false
 	
@@ -37,9 +37,9 @@ final class BikeSpotListViewModel: BikeSpotListViewModelProtocol {
 	private func fetchStations() async {
 		do {
 			let stations = try await Api.shared.fetchStations()
-			self.stations = stations.map { StationModel(spotData: $0) }
+			self.stations = stations.map { StationModel(stationData: $0) }
 			self.cellViewModels = stations.map {
-				BikeSpotViewCellViewModel(spotData: $0)
+				StationListCellViewModel(stationData: $0)
 			}
 			delegate?.update()
 		} catch {

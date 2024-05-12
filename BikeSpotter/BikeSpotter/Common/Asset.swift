@@ -7,6 +7,7 @@
 
 import UIKit
 
+// in the future it'is good to use automation like SwiftGen to generate asset inputs.
 public enum Asset {
 	static let color = AppColors()
 	static let image = AppImages()
