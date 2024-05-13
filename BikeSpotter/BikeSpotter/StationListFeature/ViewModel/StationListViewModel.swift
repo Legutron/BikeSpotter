@@ -18,14 +18,21 @@ protocol StationListViewModelProtocol {
 	var delegate: StationListUpdateDelegate? { get set }
 	var cellViewModels: [StationListCellViewModel] { get }
 	func fetchData()
+	func onLoad()
 }
 
 final class StationListViewModel: StationListViewModelProtocol {
 	weak var delegate: StationListUpdateDelegate?
+	
 	@Published var cellViewModels: [StationListCellViewModel] = []
 	
-	func fetchData() {
+	func onLoad() {
+		Location.shared.setupLocationDelegate(delegate: self)
 		getUserLocation()
+		fetchData()
+	}
+	
+	func fetchData() {
 		Task.init {
 			await fetchStations()
 		}
@@ -49,7 +56,6 @@ final class StationListViewModel: StationListViewModelProtocol {
 }
 
 // MARK: - LocationUpdateDelegate
-#warning("VERIFY")
 extension StationListViewModel: LocationUpdateDelegate {
 	func locationPermissionUpdated() {
 		self.fetchData()

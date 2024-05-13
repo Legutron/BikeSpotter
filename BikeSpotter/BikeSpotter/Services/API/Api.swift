@@ -40,7 +40,6 @@ public class Api {
 			throw ApiError.invalidURL("Unknown URL")
 		}
 		
-		
 		async let stations = apiGETrequest(url: stationInfoURL, type: StationInformationModel.self)
 		async let statuses = apiGETrequest(url: stationStatusURL, type: StationStatusesModel.self)
 		var data = try await ApiMapper.transform(stations: stations, statuses: statuses)

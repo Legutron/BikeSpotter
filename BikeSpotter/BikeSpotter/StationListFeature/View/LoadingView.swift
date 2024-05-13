@@ -27,7 +27,6 @@ final class LoadingView: UIView {
 	// MARK: - Setup -
 	private func setupViews() {
 		addSubview(indicatiorView)
-
 		NSLayoutConstraint.activate([
 			indicatiorView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
 			indicatiorView.centerYAnchor.constraint(equalTo: self.centerYAnchor)

@@ -59,7 +59,7 @@ class StationListScreen: UIViewController, StationListUpdateDelegate {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		viewModel.delegate = self
-		viewModel.fetchData()
+		viewModel.onLoad()
 		setPullToRefresh()
 		setupNavBar()
 		setupLoadingView()

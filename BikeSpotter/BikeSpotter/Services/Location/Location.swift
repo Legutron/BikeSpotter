@@ -41,25 +41,35 @@ public class Location: NSObject {
 		}
 	}
 	
-	func updatePermissionStatus() async {
+	func getDistanceInMeters(coordinate1: CLLocation, coordinate2: CLLocation) -> Int {
+		Int(coordinate1.distance(from: coordinate2))
+	}
+	
+	private func updatePermissionStatus() async {
 		if CLLocationManager.locationServicesEnabled() {
 			locationManager.delegate = self
 			locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
 			isPermissionGranted = true
 			currentLocation = locationManager.location
+			delegate?.locationPermissionUpdated()
 		} else {
 			isPermissionGranted = false
 		}
-		delegate?.locationPermissionUpdated()
 	}
 	
-	func getDistanceInMeters(coordinate1: CLLocation, coordinate2: CLLocation) -> Int {
-		Int(coordinate1.distance(from: coordinate2))
+	func setupLocationDelegate(delegate: LocationUpdateDelegate) {
+		self.delegate = delegate
 	}
 }
 
 extension Location: CLLocationManagerDelegate {
 	public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 		currentLocation = manager.location
+	}
+	
+	public func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+		Task.init {
+			await updatePermissionStatus()
+		}
 	}
 }
