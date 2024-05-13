@@ -151,8 +151,8 @@ extension StationListScreen: UITableViewDelegate, UITableViewDataSource {
 		navigationController?.pushViewController(
 			StationDetailMapScreen(
 				viewModel: StationDetailMapViewModel(
-					stationLocation: station.location, 
-					bikeAvailableValueLabel: station.bikeAvailableValue, 
+					userLocation: viewModel.userLocation,
+					stationLocation: station.location,
 					stationDetailViewModel: StationDetailViewModel(stationData: station)
 				)
 			),

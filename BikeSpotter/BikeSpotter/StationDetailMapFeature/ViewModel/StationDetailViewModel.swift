@@ -21,8 +21,6 @@ protocol StationDetailViewModelProtocol {
 }
 
 class StationDetailViewModel: StationDetailViewModelProtocol {
-	var stationID: String
-	var location: CLLocation
 	@Published var label: String
 	@Published var distance: String? = nil
 	@Published var address: String
@@ -33,9 +31,8 @@ class StationDetailViewModel: StationDetailViewModelProtocol {
 	@Published var placeAvailableLabel: String
 	
 	init(stationData: StationListCellViewModel) {
-		self.stationID = stationData.stationID
-		self.location = stationData.location
 		self.label = stationData.label
+		self.distance = stationData.distance
 		self.address = stationData.address
 		self.bikeLabelColor = stationData.bikeLabelColor
 		self.bikeAvailableValue = stationData.bikeAvailableValue

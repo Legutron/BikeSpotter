@@ -6,9 +6,9 @@
 //
 
 import Foundation
+import CoreLocation
 
 #warning("Name for the location - check")
-#warning("Reuse Spot detail model from map to cell")
 
 protocol StationListUpdateDelegate: AnyObject {
 	func stationsUpdated()
@@ -17,6 +17,7 @@ protocol StationListUpdateDelegate: AnyObject {
 protocol StationListViewModelProtocol {
 	var delegate: StationListUpdateDelegate? { get set }
 	var cellViewModels: [StationListCellViewModel] { get }
+	var userLocation: CLLocation? { get }
 	func fetchData()
 	func onLoad()
 }
@@ -25,6 +26,7 @@ final class StationListViewModel: StationListViewModelProtocol {
 	weak var delegate: StationListUpdateDelegate?
 	
 	@Published var cellViewModels: [StationListCellViewModel] = []
+	@Published var userLocation: CLLocation?
 	
 	func onLoad() {
 		Location.shared.setupLocationDelegate(delegate: self)
@@ -58,6 +60,7 @@ final class StationListViewModel: StationListViewModelProtocol {
 // MARK: - LocationUpdateDelegate
 extension StationListViewModel: LocationUpdateDelegate {
 	func locationPermissionUpdated() {
-		self.fetchData()
+		userLocation = Location.shared.currentLocation
+		fetchData()
 	}
 }

@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class StationDetailMapScreen: UIViewController, StationDetailMapUpdateDelegate {
+class StationDetailMapScreen: UIViewController {
 	enum Constants {
 		static let mapEdgeInsets: UIEdgeInsets = .init(
 			top: 50,
@@ -55,11 +55,15 @@ class StationDetailMapScreen: UIViewController, StationDetailMapUpdateDelegate {
 	// MARK: - Lifecycle
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		viewModel.delegate = self
-		viewModel.requestUserLocation()
 		setupViews()
 		setupStationDetailView()
 		addCustomPin()
+		if let userLocation = viewModel.userLocation {
+			self.showRouteOnMap(
+				pickupCoordinate: userLocation.coordinate,
+				destinationCoordinate: viewModel.stationLocation.coordinate
+			)
+		}
 	}
 	
 	// MARK: - Setup views
@@ -86,18 +90,6 @@ class StationDetailMapScreen: UIViewController, StationDetailMapUpdateDelegate {
 			detailView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
 			detailView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 		])
-	}
-	
-	// MARK: - Notify Actions
-	func userLocationUpdated() {
-		DispatchQueue.main.async {
-			if let userLocation = self.viewModel.userLocation {
-				self.showRouteOnMap(
-					pickupCoordinate: userLocation.coordinate,
-					destinationCoordinate: self.viewModel.stationLocation.coordinate
-				)
-			}
-		}
 	}
 }
 
@@ -172,7 +164,6 @@ extension StationDetailMapScreen: MKMapViewDelegate {
 				latitude: 54.375998,
 				longitude: 18.626554
 			),
-			bikeAvailableValueLabel: Translations.bikesValueLabel,
 			stationDetailViewModel: StationDetailViewModel(
 				stationData: .init(stationData: .mock)
 			)
