@@ -48,10 +48,10 @@ class MapPinView: UIView {
 	
 	// MARK: - Setup
 	private func setupViews() {
-		self.translatesAutoresizingMaskIntoConstraints = false
-		self.addSubview(stack)
-		self.backgroundColor = Asset.color.backgroundPrimary
-		self.layer.cornerRadius = 20
+		translatesAutoresizingMaskIntoConstraints = false
+		addSubview(stack)
+		backgroundColor = Asset.color.backgroundPrimary
+		layer.cornerRadius = 20
 		
 		NSLayoutConstraint.activate([
 			stack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),

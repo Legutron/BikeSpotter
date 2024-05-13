@@ -78,11 +78,11 @@ class StationListScreen: UIViewController, StationListUpdateDelegate {
 		if let backIcon = UIImage(named: Asset.image.backIcon) {
 			appearance.setBackIndicatorImage(backIcon, transitionMaskImage: backIcon)
 		}
-		self.navigationController?.navigationBar.tintColor = .white
-		self.navigationController?.navigationBar.standardAppearance = appearance
-		self.navigationController?.navigationBar.compactAppearance = appearance
-		self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
-		self.navigationController?.navigationBar.prefersLargeTitles = false
+		navigationController?.navigationBar.tintColor = .white
+		navigationController?.navigationBar.standardAppearance = appearance
+		navigationController?.navigationBar.compactAppearance = appearance
+		navigationController?.navigationBar.scrollEdgeAppearance = appearance
+		navigationController?.navigationBar.prefersLargeTitles = false
 		navigationItem.backButtonTitle = Sign.empty
 	}
 	
@@ -98,9 +98,9 @@ class StationListScreen: UIViewController, StationListUpdateDelegate {
 	}
 	
 	func setupViews() {
-		self.view.backgroundColor = Asset.color.backgroundSecondary
-		self.view.addSubview(contentView)
-		self.view.addSubview(tableView)
+		view.backgroundColor = Asset.color.backgroundSecondary
+		view.addSubview(contentView)
+		view.addSubview(tableView)
 		loadingView.isHidden = true
 		
 		NSLayoutConstraint.activate([
@@ -128,7 +128,7 @@ class StationListScreen: UIViewController, StationListUpdateDelegate {
 	// MARK: - Behaviors
 	@objc 
 	func refresh() {
-		self.viewModel.fetchData()
+		viewModel.fetchData()
 	}
 }
 

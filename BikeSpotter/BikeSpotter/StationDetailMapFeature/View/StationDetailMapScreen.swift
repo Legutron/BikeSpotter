@@ -55,23 +55,23 @@ class StationDetailMapScreen: UIViewController, StationDetailMapUpdateDelegate {
 	// MARK: - Lifecycle
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		self.viewModel.delegate = self
-		self.viewModel.requestUserLocation()
-		self.setupViews()
-		self.setupStationDetailView()
-		self.addCustomPin()
+		viewModel.delegate = self
+		viewModel.requestUserLocation()
+		setupViews()
+		setupStationDetailView()
+		addCustomPin()
 	}
 	
 	// MARK: - Setup views
 	func setupViews() {
-		self.view.backgroundColor = Asset.color.backgroundSecondary
-		self.view.addSubview(mapView)
+		view.backgroundColor = Asset.color.backgroundSecondary
+		view.addSubview(mapView)
 		
 		NSLayoutConstraint.activate([
-			mapView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-			mapView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-			mapView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-			mapView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+			mapView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+			mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+			mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+			mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 		])
 	}
 	
@@ -79,12 +79,12 @@ class StationDetailMapScreen: UIViewController, StationDetailMapUpdateDelegate {
 		let detailView = StationDetailView()
 		detailView.setupData(viewModel: viewModel.stationDetailViewModel)
 		detailView.translatesAutoresizingMaskIntoConstraints = false
-		self.view.addSubview(detailView)
+		view.addSubview(detailView)
 		
 		NSLayoutConstraint.activate([
-			detailView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-			detailView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-			detailView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+			detailView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+			detailView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+			detailView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 		])
 	}
 	

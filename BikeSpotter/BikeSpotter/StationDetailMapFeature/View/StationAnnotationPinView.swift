@@ -39,7 +39,7 @@ final class StationAnnotationPinView: MKAnnotationView, StationAnnotationPinProt
 		backgroundColor = .clear
 		pinView = MapPinView()
 		if let pinView {
-			self.addSubview(pinView)
+			addSubview(pinView)
 			pinView.frame = bounds
 		}
 	}

@@ -35,7 +35,7 @@ public class Location: NSObject {
 	}
 	
 	func requestUserLocation() {
-		self.locationManager.requestWhenInUseAuthorization()
+		locationManager.requestWhenInUseAuthorization()
 		Task.init {
 			await updatePermissionStatus()
 		}
@@ -43,12 +43,12 @@ public class Location: NSObject {
 	
 	func updatePermissionStatus() async {
 		if CLLocationManager.locationServicesEnabled() {
-			self.locationManager.delegate = self
-			self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-			self.isPermissionGranted = true
-			self.currentLocation = locationManager.location
+			locationManager.delegate = self
+			locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+			isPermissionGranted = true
+			currentLocation = locationManager.location
 		} else {
-			self.isPermissionGranted = false
+			isPermissionGranted = false
 		}
 		delegate?.locationPermissionUpdated()
 	}

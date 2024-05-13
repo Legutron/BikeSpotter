@@ -157,10 +157,10 @@ final class StationDetailView: UIView {
 	
 	// MARK: - Setup -
 	func setupViews() {
-		self.addSubview(contentView)
-		self.addSubview(titleLabel)
-		self.addSubview(subtitleStack)
-		self.addSubview(valuesStack)
+		addSubview(contentView)
+		addSubview(titleLabel)
+		addSubview(subtitleStack)
+		addSubview(valuesStack)
 		
 		NSLayoutConstraint.activate([
 			contentView.topAnchor.constraint(equalTo: self.topAnchor),
@@ -187,15 +187,15 @@ final class StationDetailView: UIView {
 	
 	func setupData(viewModel: StationDetailViewModelProtocol) {
 		self.viewModel = viewModel
-		self.titleLabel.text = self.viewModel?.label
-		self.distanceLabel.text = self.viewModel?.distance
-		self.addressLabel.text = self.viewModel?.address
+		titleLabel.text = self.viewModel?.label
+		distanceLabel.text = self.viewModel?.distance
+		addressLabel.text = self.viewModel?.address
 		
-		self.bikeAvailableValueLabel.text = self.viewModel?.bikeAvailableValue
-		self.placeAvailableValueLabel.text = self.viewModel?.placeAvailableValue
-		self.bikeAvailableLabel.text = self.viewModel?.bikeAvailableLabel
-		self.placeAvailableLabel.text = self.viewModel?.placeAvailableLabel
+		bikeAvailableValueLabel.text = self.viewModel?.bikeAvailableValue
+		placeAvailableValueLabel.text = self.viewModel?.placeAvailableValue
+		bikeAvailableLabel.text = self.viewModel?.bikeAvailableLabel
+		placeAvailableLabel.text = self.viewModel?.placeAvailableLabel
 		
-		self.bikeAvailableValueLabel.textColor = self.viewModel?.bikeLabelColor
+		bikeAvailableValueLabel.textColor = self.viewModel?.bikeLabelColor
 	}
 }
