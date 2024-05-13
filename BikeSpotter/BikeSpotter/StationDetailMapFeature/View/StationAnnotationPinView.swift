@@ -21,7 +21,7 @@ final class StationAnnotationPinView: MKAnnotationView, StationAnnotationPinProt
 	// MARK: - Properties
 	var pinView: MapPinView?
 	
-	// MARK: - Initialization
+	// MARK: - Inits
 	override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
 		super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
 		frame = CGRect(x: 0, y: 0, width: Constants.frameWidth, height: Constants.frameheight)
@@ -30,7 +30,6 @@ final class StationAnnotationPinView: MKAnnotationView, StationAnnotationPinProt
 		setup()
 	}
 	
-	// MARK: - Inits
 	required init?(coder aDecoder: NSCoder) {
 		nil
 	}
@@ -40,7 +39,7 @@ final class StationAnnotationPinView: MKAnnotationView, StationAnnotationPinProt
 		backgroundColor = .clear
 		pinView = MapPinView()
 		if let pinView {
-			self.addSubview(pinView)
+			addSubview(pinView)
 			pinView.frame = bounds
 		}
 	}

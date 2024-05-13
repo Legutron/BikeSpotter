@@ -11,17 +11,16 @@ import Foundation
 struct StationInformationModel: Codable {
 	let lastUpdated, ttl: Int
 	let version: String
-	let data: DataClass
+	let data: StationInformationModel.Data
 
 	enum CodingKeys: String, CodingKey {
 		case lastUpdated = "last_updated"
 		case ttl, version, data
 	}
-}
-
-// MARK: - DataClass
-struct DataClass: Codable {
-	let stations: [Station]
+	
+	struct Data: Codable {
+		let stations: [Station]
+	}
 }
 
 // MARK: - Station

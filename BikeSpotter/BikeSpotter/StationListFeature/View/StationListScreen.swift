@@ -7,7 +7,7 @@
 
 import UIKit
 
-class StationListScreen: UIViewController, StationListNotifyDelegate {
+class StationListScreen: UIViewController, StationListUpdateDelegate {
 	enum Constants {
 		static let cellIdentifier: String = "station_cell"
 		static let rowHeight: CGFloat = 250
@@ -45,20 +45,30 @@ class StationListScreen: UIViewController, StationListNotifyDelegate {
 	private var viewModel: StationListViewModelProtocol
 	private let refreshControl = UIRefreshControl()
 	
+	// MARK: - Inits
+	init(viewModel: StationListViewModelProtocol) {
+		self.viewModel = viewModel
+		super.init(nibName: nil, bundle: nil)
+	}
+	
+	required init?(coder: NSCoder) {
+		nil
+	}
+	
 	// MARK: - Lifecycle
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		viewModel.delegate = self
-		viewModel.fetchData()
-		setPullToRefreash()
+		viewModel.onLoad()
+		setPullToRefresh()
 		setupNavBar()
 		setupLoadingView()
 	}
 	
 	// MARK: - Setup views
-	func setPullToRefreash() {
+	func setPullToRefresh() {
 		refreshControl.tintColor = Asset.color.backgroundActive
-		refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+		refreshControl.addTarget(self, action: #selector(self.refresh), for: .valueChanged)
 		tableView.addSubview(refreshControl)
 	}
 	
@@ -68,11 +78,11 @@ class StationListScreen: UIViewController, StationListNotifyDelegate {
 		if let backIcon = UIImage(named: Asset.image.backIcon) {
 			appearance.setBackIndicatorImage(backIcon, transitionMaskImage: backIcon)
 		}
-		self.navigationController?.navigationBar.tintColor = .white
-		self.navigationController?.navigationBar.standardAppearance = appearance
-		self.navigationController?.navigationBar.compactAppearance = appearance
-		self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
-		self.navigationController?.navigationBar.prefersLargeTitles = false
+		navigationController?.navigationBar.tintColor = .white
+		navigationController?.navigationBar.standardAppearance = appearance
+		navigationController?.navigationBar.compactAppearance = appearance
+		navigationController?.navigationBar.scrollEdgeAppearance = appearance
+		navigationController?.navigationBar.prefersLargeTitles = false
 		navigationItem.backButtonTitle = Sign.empty
 	}
 	
@@ -88,9 +98,9 @@ class StationListScreen: UIViewController, StationListNotifyDelegate {
 	}
 	
 	func setupViews() {
-		self.view.backgroundColor = Asset.color.backgroundSecondary
-		self.view.addSubview(contentView)
-		self.view.addSubview(tableView)
+		view.backgroundColor = Asset.color.backgroundSecondary
+		view.addSubview(contentView)
+		view.addSubview(tableView)
 		loadingView.isHidden = true
 		
 		NSLayoutConstraint.activate([
@@ -106,16 +116,6 @@ class StationListScreen: UIViewController, StationListNotifyDelegate {
 		])
 	}
 	
-	// MARK: - Inits
-	init(viewModel: StationListViewModelProtocol) {
-		self.viewModel = viewModel
-		super.init(nibName: nil, bundle: nil)
-	}
-	
-	required init?(coder: NSCoder) {
-		nil
-	}
-	
 	// MARK: - Notify Actions
 	func stationsUpdated() {
 		DispatchQueue.main.async {
@@ -127,8 +127,8 @@ class StationListScreen: UIViewController, StationListNotifyDelegate {
 	
 	// MARK: - Behaviors
 	@objc 
-	func refresh(_ sender: AnyObject) {
-		self.viewModel.fetchData()
+	func refresh() {
+		viewModel.fetchData()
 	}
 }
 
@@ -151,8 +151,8 @@ extension StationListScreen: UITableViewDelegate, UITableViewDataSource {
 		navigationController?.pushViewController(
 			StationDetailMapScreen(
 				viewModel: StationDetailMapViewModel(
-					stationLocation: station.location, 
-					bikeAvailableValueLabel: station.bikeAvailableValue, 
+					userLocation: viewModel.userLocation,
+					stationLocation: station.location,
 					stationDetailViewModel: StationDetailViewModel(stationData: station)
 				)
 			),

@@ -6,23 +6,33 @@
 //
 
 import Foundation
+import CoreLocation
 
-protocol StationListNotifyDelegate: AnyObject {
+protocol StationListUpdateDelegate: AnyObject {
 	func stationsUpdated()
 }
 
 protocol StationListViewModelProtocol {
-	var delegate: StationListNotifyDelegate? { get set }
+	var delegate: StationListUpdateDelegate? { get set }
 	var cellViewModels: [StationListCellViewModel] { get }
+	var userLocation: CLLocation? { get }
 	func fetchData()
+	func onLoad()
 }
 
 final class StationListViewModel: StationListViewModelProtocol {
-	weak var delegate: StationListNotifyDelegate?
+	weak var delegate: StationListUpdateDelegate?
+	
 	@Published var cellViewModels: [StationListCellViewModel] = []
+	@Published var userLocation: CLLocation?
+	
+	func onLoad() {
+		Location.shared.setupLocationDelegate(delegate: self)
+		getUserLocation()
+		fetchData()
+	}
 	
 	func fetchData() {
-		getUserLocation()
 		Task.init {
 			await fetchStations()
 		}
@@ -42,5 +52,13 @@ final class StationListViewModel: StationListViewModelProtocol {
 	
 	private func getUserLocation() {
 		Location.shared.requestUserLocation()
+	}
+}
+
+// MARK: - LocationUpdateDelegate
+extension StationListViewModel: LocationUpdateDelegate {
+	func locationPermissionUpdated() {
+		userLocation = Location.shared.currentLocation
+		fetchData()
 	}
 }

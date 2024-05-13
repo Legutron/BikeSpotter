@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class StationDetailMapScreen: UIViewController, StationDetailMapNotifyDelegate {
+class StationDetailMapScreen: UIViewController {
 	enum Constants {
 		static let mapEdgeInsets: UIEdgeInsets = .init(
 			top: 50,
@@ -42,42 +42,6 @@ class StationDetailMapScreen: UIViewController, StationDetailMapNotifyDelegate {
 	// MARK: - Properties
 	private var viewModel: StationDetailMapViewModelProtocol
 	
-	// MARK: - Lifecycle
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		self.viewModel.delegate = self
-		self.viewModel.requestUserLocation()
-		self.setupViews()
-		self.setupStationDetailView()
-		self.addCustomPin()
-	}
-	
-	// MARK: - Setup views
-	func setupViews() {
-		self.view.backgroundColor = Asset.color.backgroundSecondary
-		self.view.addSubview(mapView)
-		
-		NSLayoutConstraint.activate([
-			mapView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-			mapView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-			mapView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-			mapView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-		])
-	}
-	
-	func setupStationDetailView() {
-		let detailView = StationDetailView()
-		detailView.setupData(viewModel: viewModel.stationDetailViewModel)
-		detailView.translatesAutoresizingMaskIntoConstraints = false
-		self.view.addSubview(detailView)
-		
-		NSLayoutConstraint.activate([
-			detailView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-			detailView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-			detailView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-		])
-	}
-	
 	// MARK: - Inits
 	init(viewModel: StationDetailMapViewModelProtocol) {
 		self.viewModel = viewModel
@@ -88,16 +52,44 @@ class StationDetailMapScreen: UIViewController, StationDetailMapNotifyDelegate {
 		nil
 	}
 	
-	// MARK: - Notify Actions
-	func userLocationUpdated() {
-		DispatchQueue.main.async {
-			if let userLocation = self.viewModel.userLocation {
-				self.showRouteOnMap(
-					pickupCoordinate: userLocation.coordinate,
-					destinationCoordinate: self.viewModel.stationLocation.coordinate
-				)
-			}
+	// MARK: - Lifecycle
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		setupViews()
+		setupStationDetailView()
+		addCustomPin()
+		if let userLocation = viewModel.userLocation {
+			self.showRouteOnMap(
+				pickupCoordinate: userLocation.coordinate,
+				destinationCoordinate: viewModel.stationLocation.coordinate
+			)
 		}
+	}
+	
+	// MARK: - Setup views
+	func setupViews() {
+		view.backgroundColor = Asset.color.backgroundSecondary
+		view.addSubview(mapView)
+		
+		NSLayoutConstraint.activate([
+			mapView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+			mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+			mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+			mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+		])
+	}
+	
+	func setupStationDetailView() {
+		let detailView = StationDetailView()
+		detailView.setupData(viewModel: viewModel.stationDetailViewModel)
+		detailView.translatesAutoresizingMaskIntoConstraints = false
+		view.addSubview(detailView)
+		
+		NSLayoutConstraint.activate([
+			detailView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+			detailView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+			detailView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+		])
 	}
 }
 
@@ -172,7 +164,6 @@ extension StationDetailMapScreen: MKMapViewDelegate {
 				latitude: 54.375998,
 				longitude: 18.626554
 			),
-			bikeAvailableValueLabel: Translations.bikesValueLabel,
 			stationDetailViewModel: StationDetailViewModel(
 				stationData: .init(stationData: .mock)
 			)

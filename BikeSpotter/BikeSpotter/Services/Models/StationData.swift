@@ -27,6 +27,7 @@ extension StationData {
 	}
 	
 	var name: String {
+		// on figma file is only number, so I drop first localization charakters. 
 		let name: [String] = [
 			String(station.name.dropFirst(3)),
 			station.address
