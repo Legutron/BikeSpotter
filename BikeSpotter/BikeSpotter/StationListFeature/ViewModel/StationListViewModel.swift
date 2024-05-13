@@ -7,7 +7,6 @@
 
 import Foundation
 
-#warning("Add tap button animation!")
 #warning("Name for the location - check")
 #warning("Reuse Spot detail model from map to cell")
 
