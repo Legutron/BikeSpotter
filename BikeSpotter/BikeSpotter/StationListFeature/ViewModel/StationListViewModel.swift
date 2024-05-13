@@ -8,8 +8,6 @@
 import Foundation
 import CoreLocation
 
-#warning("Name for the location - check")
-
 protocol StationListUpdateDelegate: AnyObject {
 	func stationsUpdated()
 }
