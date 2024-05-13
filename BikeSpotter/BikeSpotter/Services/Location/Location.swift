@@ -8,8 +8,19 @@
 import Foundation
 import CoreLocation
 
+/*
+ COMMENT:
+ in the future there is an option to navigate user to the selected station (using locationManager.startUpdatingLocation())
+ */
+
+protocol LocationUpdateDelegate: AnyObject {
+	func locationPermissionUpdated()
+}
+
 // Singleton pattern
 public class Location: NSObject {
+	weak var delegate: LocationUpdateDelegate?
+	
 	static let shared = Location()
 	private let locationManager: CLLocationManager
 	public var isPermissionGranted: Bool = false
@@ -39,6 +50,7 @@ public class Location: NSObject {
 		} else {
 			self.isPermissionGranted = false
 		}
+		delegate?.locationPermissionUpdated()
 	}
 	
 	func getDistanceInMeters(coordinate1: CLLocation, coordinate2: CLLocation) -> Int {
@@ -49,6 +61,5 @@ public class Location: NSObject {
 extension Location: CLLocationManagerDelegate {
 	public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 		currentLocation = manager.location
-		// in the future there is an option to navigate user to the selected station (using locationManager.startUpdatingLocation())
 	}
 }

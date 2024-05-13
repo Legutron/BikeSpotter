@@ -7,7 +7,7 @@
 
 import Foundation
 
-// MARK: - Welcome
+// MARK: - StationStatusesModel
 struct StationStatusesModel: Codable {
 	let lastUpdated, ttl: Int
 	let version: String
@@ -19,12 +19,11 @@ struct StationStatusesModel: Codable {
 	}
 }
 
-// MARK: - DataClass
 struct StationStatusData: Codable {
 	let stations: [StationStatusModel]
 }
 
-// MARK: - Station
+// MARK: - StationStatusModel
 struct StationStatusModel: Codable {
 	let stationID: String
 	let isInstalled, isRenting, isReturning: Bool
@@ -55,6 +54,7 @@ struct VehicleTypesAvailable: Codable {
 	}
 }
 
+// MARK: - VehicleTypeID enum
 enum VehicleTypeID: String, Codable {
 	case bike = "bike"
 	case ebike = "ebike"

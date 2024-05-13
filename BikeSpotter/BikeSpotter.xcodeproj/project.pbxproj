@@ -16,9 +16,6 @@
 		3B16F0382BEBA62E00CF64DC /* BikeSpotterUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B16F0372BEBA62E00CF64DC /* BikeSpotterUITestsLaunchTests.swift */; };
 		3B16F04C2BEBBDE800CF64DC /* StationListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B16F04B2BEBBDE800CF64DC /* StationListScreen.swift */; };
 		3B16F0502BEBBE1D00CF64DC /* StationListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B16F04F2BEBBE1D00CF64DC /* StationListViewModel.swift */; };
-		3B16F0522BEBBE6700CF64DC /* BikeSpotModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B16F0512BEBBE6700CF64DC /* BikeSpotModel.swift */; };
-		3B16F05C2BEC9CA200CF64DC /* SpotValueModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B16F05B2BEC9CA200CF64DC /* SpotValueModel.swift */; };
-		3B8BEDAF2BED1ACD004B1064 /* StationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8BEDAE2BED1ACD004B1064 /* StationModel.swift */; };
 		3B8BEDB42BEDE7BF004B1064 /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8BEDB32BEDE7BF004B1064 /* Asset.swift */; };
 		3B8BEDBD2BEDF746004B1064 /* StationDetailMapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8BEDBC2BEDF746004B1064 /* StationDetailMapScreen.swift */; };
 		3B8BEDBF2BEDF771004B1064 /* StationDetailMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8BEDBE2BEDF771004B1064 /* StationDetailMapViewModel.swift */; };
@@ -72,9 +69,6 @@
 		3B16F0372BEBA62E00CF64DC /* BikeSpotterUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BikeSpotterUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		3B16F04B2BEBBDE800CF64DC /* StationListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationListScreen.swift; sourceTree = "<group>"; };
 		3B16F04F2BEBBE1D00CF64DC /* StationListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationListViewModel.swift; sourceTree = "<group>"; };
-		3B16F0512BEBBE6700CF64DC /* BikeSpotModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BikeSpotModel.swift; sourceTree = "<group>"; };
-		3B16F05B2BEC9CA200CF64DC /* SpotValueModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotValueModel.swift; sourceTree = "<group>"; };
-		3B8BEDAE2BED1ACD004B1064 /* StationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationModel.swift; sourceTree = "<group>"; };
 		3B8BEDB32BEDE7BF004B1064 /* Asset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
 		3B8BEDBC2BEDF746004B1064 /* StationDetailMapScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationDetailMapScreen.swift; sourceTree = "<group>"; };
 		3B8BEDBE2BEDF771004B1064 /* StationDetailMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationDetailMapViewModel.swift; sourceTree = "<group>"; };
@@ -180,19 +174,8 @@
 			children = (
 				3B16F0482BEBBDAB00CF64DC /* ViewModel */,
 				3B16F0472BEBBDA600CF64DC /* View */,
-				3B16F0462BEBBD9E00CF64DC /* Model */,
 			);
 			path = StationListFeature;
-			sourceTree = "<group>";
-		};
-		3B16F0462BEBBD9E00CF64DC /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				3B16F0512BEBBE6700CF64DC /* BikeSpotModel.swift */,
-				3B8BEDAE2BED1ACD004B1064 /* StationModel.swift */,
-				3B16F05B2BEC9CA200CF64DC /* SpotValueModel.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		3B16F0472BEBBDA600CF64DC /* View */ = {
@@ -230,16 +213,8 @@
 			children = (
 				3B8BEDBB2BEDF739004B1064 /* ViewModel */,
 				3B8BEDBA2BEDF733004B1064 /* View */,
-				3B8BEDB92BEDF72D004B1064 /* Model */,
 			);
 			path = StationDetailMapFeature;
-			sourceTree = "<group>";
-		};
-		3B8BEDB92BEDF72D004B1064 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		3B8BEDBA2BEDF733004B1064 /* View */ = {
@@ -433,7 +408,6 @@
 			files = (
 				3B8BEDB42BEDE7BF004B1064 /* Asset.swift in Sources */,
 				3B95A8CE2BEE2BCE003F52F5 /* StationListViewCell.swift in Sources */,
-				3B8BEDAF2BED1ACD004B1064 /* StationModel.swift in Sources */,
 				3B95A8EC2BF0B602003F52F5 /* StationListCellViewModel.swift in Sources */,
 				3B95A8DB2BEF4C24003F52F5 /* StationData.swift in Sources */,
 				3B95A8EA2BF0B141003F52F5 /* LoadingView.swift in Sources */,
@@ -450,13 +424,11 @@
 				3B95A8F62BF12AB9003F52F5 /* ApiMapper.swift in Sources */,
 				3B95A8F82BF13893003F52F5 /* MapPinView.swift in Sources */,
 				3B95A8F02BF113E0003F52F5 /* StationDetailViewModel.swift in Sources */,
-				3B16F0522BEBBE6700CF64DC /* BikeSpotModel.swift in Sources */,
 				3B95A8EE2BF111E6003F52F5 /* StationDetailView.swift in Sources */,
 				3B8BEDBF2BEDF771004B1064 /* StationDetailMapViewModel.swift in Sources */,
 				3B95A8E82BF0AE8E003F52F5 /* Sign.swift in Sources */,
 				3B95A8D22BEE3667003F52F5 /* Api.swift in Sources */,
 				3B95A8DD2BEFDCDB003F52F5 /* StationAnnotationPinView.swift in Sources */,
-				3B16F05C2BEC9CA200CF64DC /* SpotValueModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -637,8 +609,7 @@
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "BikeSpotter needs locations data to calculate distance to the stations posts and navigate you to them!";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -666,8 +637,7 @@
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "BikeSpotter needs locations data to calculate distance to the stations posts and navigate you to them!";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

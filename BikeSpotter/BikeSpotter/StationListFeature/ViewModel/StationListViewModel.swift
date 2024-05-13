@@ -7,18 +7,22 @@
 
 import Foundation
 
-protocol StationListNotifyDelegate: AnyObject {
+#warning("Add tap button animation!")
+#warning("Name for the location - check")
+#warning("Reuse Spot detail model from map to cell")
+
+protocol StationListUpdateDelegate: AnyObject {
 	func stationsUpdated()
 }
 
 protocol StationListViewModelProtocol {
-	var delegate: StationListNotifyDelegate? { get set }
+	var delegate: StationListUpdateDelegate? { get set }
 	var cellViewModels: [StationListCellViewModel] { get }
 	func fetchData()
 }
 
 final class StationListViewModel: StationListViewModelProtocol {
-	weak var delegate: StationListNotifyDelegate?
+	weak var delegate: StationListUpdateDelegate?
 	@Published var cellViewModels: [StationListCellViewModel] = []
 	
 	func fetchData() {
@@ -42,5 +46,13 @@ final class StationListViewModel: StationListViewModelProtocol {
 	
 	private func getUserLocation() {
 		Location.shared.requestUserLocation()
+	}
+}
+
+// MARK: - LocationUpdateDelegate
+#warning("VERIFY")
+extension StationListViewModel: LocationUpdateDelegate {
+	func locationPermissionUpdated() {
+		self.fetchData()
 	}
 }

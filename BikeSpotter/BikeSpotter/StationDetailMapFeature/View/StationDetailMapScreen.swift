@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class StationDetailMapScreen: UIViewController, StationDetailMapNotifyDelegate {
+class StationDetailMapScreen: UIViewController, StationDetailMapUpdateDelegate {
 	enum Constants {
 		static let mapEdgeInsets: UIEdgeInsets = .init(
 			top: 50,
@@ -41,6 +41,16 @@ class StationDetailMapScreen: UIViewController, StationDetailMapNotifyDelegate {
 	
 	// MARK: - Properties
 	private var viewModel: StationDetailMapViewModelProtocol
+	
+	// MARK: - Inits
+	init(viewModel: StationDetailMapViewModelProtocol) {
+		self.viewModel = viewModel
+		super.init(nibName: nil, bundle: nil)
+	}
+	
+	required init?(coder: NSCoder) {
+		nil
+	}
 	
 	// MARK: - Lifecycle
 	override func viewDidLoad() {
@@ -76,16 +86,6 @@ class StationDetailMapScreen: UIViewController, StationDetailMapNotifyDelegate {
 			detailView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
 			detailView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
 		])
-	}
-	
-	// MARK: - Inits
-	init(viewModel: StationDetailMapViewModelProtocol) {
-		self.viewModel = viewModel
-		super.init(nibName: nil, bundle: nil)
-	}
-	
-	required init?(coder: NSCoder) {
-		nil
 	}
 	
 	// MARK: - Notify Actions

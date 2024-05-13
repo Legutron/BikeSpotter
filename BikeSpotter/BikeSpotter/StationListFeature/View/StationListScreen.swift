@@ -7,7 +7,7 @@
 
 import UIKit
 
-class StationListScreen: UIViewController, StationListNotifyDelegate {
+class StationListScreen: UIViewController, StationListUpdateDelegate {
 	enum Constants {
 		static let cellIdentifier: String = "station_cell"
 		static let rowHeight: CGFloat = 250
@@ -45,20 +45,30 @@ class StationListScreen: UIViewController, StationListNotifyDelegate {
 	private var viewModel: StationListViewModelProtocol
 	private let refreshControl = UIRefreshControl()
 	
+	// MARK: - Inits
+	init(viewModel: StationListViewModelProtocol) {
+		self.viewModel = viewModel
+		super.init(nibName: nil, bundle: nil)
+	}
+	
+	required init?(coder: NSCoder) {
+		nil
+	}
+	
 	// MARK: - Lifecycle
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		viewModel.delegate = self
 		viewModel.fetchData()
-		setPullToRefreash()
+		setPullToRefresh()
 		setupNavBar()
 		setupLoadingView()
 	}
 	
 	// MARK: - Setup views
-	func setPullToRefreash() {
+	func setPullToRefresh() {
 		refreshControl.tintColor = Asset.color.backgroundActive
-		refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+		refreshControl.addTarget(self, action: #selector(self.refresh), for: .valueChanged)
 		tableView.addSubview(refreshControl)
 	}
 	
@@ -106,16 +116,6 @@ class StationListScreen: UIViewController, StationListNotifyDelegate {
 		])
 	}
 	
-	// MARK: - Inits
-	init(viewModel: StationListViewModelProtocol) {
-		self.viewModel = viewModel
-		super.init(nibName: nil, bundle: nil)
-	}
-	
-	required init?(coder: NSCoder) {
-		nil
-	}
-	
 	// MARK: - Notify Actions
 	func stationsUpdated() {
 		DispatchQueue.main.async {
@@ -127,7 +127,7 @@ class StationListScreen: UIViewController, StationListNotifyDelegate {
 	
 	// MARK: - Behaviors
 	@objc 
-	func refresh(_ sender: AnyObject) {
+	func refresh() {
 		self.viewModel.fetchData()
 	}
 }

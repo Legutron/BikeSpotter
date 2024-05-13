@@ -14,6 +14,11 @@ enum ApiKeys {
 
 // Singleton pattern
 public class Api {
+	enum Constants {
+		static let defaultDistance: Int = Int.max
+	}
+	
+	
 	static let shared = Api(decoder: .init())
 	let decoder: JSONDecoder
 	
@@ -28,9 +33,16 @@ public class Api {
 		it would be nice to use pagination here and send the user coordinates data
 		to received sorted items.
 		*/
-		async let stations = try fetchStationInformation()
-		async let statuses = try fetchStationStatuses()
+		guard
+			let stationInfoURL = URL(string: ApiKeys.stationInfoURL),
+			let stationStatusURL = URL(string: ApiKeys.stationStatusURL)
+		else {
+			throw ApiError.invalidURL("Unknown URL")
+		}
 		
+		
+		async let stations = apiGETrequest(url: stationInfoURL, type: StationInformationModel.self)
+		async let statuses = apiGETrequest(url: stationStatusURL, type: StationStatusesModel.self)
 		var data = try await ApiMapper.transform(stations: stations, statuses: statuses)
 		
 		if let userLocation = Location.shared.currentLocation {
@@ -42,7 +54,7 @@ public class Api {
 				)
 				return updatedStation
 			}
-			data.sort(by: { $0.distance ?? 999 < $1.distance ?? 999 })
+			data.sort(by: { $0.distance ?? Constants.defaultDistance < $1.distance ?? Constants.defaultDistance })
 		}
 		return data
 	}
@@ -50,10 +62,7 @@ public class Api {
 
 // MARK: - Helpers
 extension Api {
-	private func fetchStationInformation() async throws -> StationInformationModel {
-		guard let url: URL = .init(string: ApiKeys.stationInfoURL) else {
-			throw ApiError.invalidURL("Unknown URL")
-		}
+	private func apiGETrequest<T: Codable>(url: URL, type: T.Type) async throws -> T {
 		var request = URLRequest(url: url)
 		request.httpMethod = "GET"
 		let (data, response) = try await URLSession.shared.data(for: request)
@@ -63,28 +72,9 @@ extension Api {
 		if (300..<500).contains(httpResponse.statusCode) {
 			throw ApiError.badServerResponse(httpResponse.description)
 		}
-		guard let stations =  try? decoder.decode(StationInformationModel.self, from: data) else {
+		guard let result = try? decoder.decode(type, from: data) else {
 			throw ApiError.unknownDataType("Couldn't decode data")
 		}
-		return stations
-	}
-	
-	private func fetchStationStatuses() async throws -> StationStatusesModel {
-		guard let url: URL = .init(string: ApiKeys.stationStatusURL) else {
-			throw ApiError.invalidURL("Unknown URL")
-		}
-		var request = URLRequest(url: url)
-		request.httpMethod = "GET"
-		let (data, response) = try await URLSession.shared.data(for: request)
-		guard let httpResponse = response as? HTTPURLResponse else {
-			throw ApiError.badServerResponse("Unknown Error")
-		}
-		if (300..<500).contains(httpResponse.statusCode) {
-			throw ApiError.badServerResponse(httpResponse.description)
-		}
-		guard let statuses =  try? decoder.decode(StationStatusesModel.self, from: data) else {
-			throw ApiError.unknownDataType("Couldn't decode data")
-		}
-		return statuses
+		return result
 	}
 }

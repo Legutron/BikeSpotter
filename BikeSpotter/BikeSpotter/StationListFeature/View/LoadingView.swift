@@ -10,12 +10,12 @@ import UIKit
 final class LoadingView: UIView {
 	
 	// MARK: - UI
-	private lazy var progressView: UIActivityIndicatorView = {
-		let progress = UIActivityIndicatorView()
-		progress.translatesAutoresizingMaskIntoConstraints = false
-		progress.color = Asset.color.backgroundActive
-		progress.startAnimating()
-		return progress
+	private lazy var indicatiorView: UIActivityIndicatorView = {
+		let indicator = UIActivityIndicatorView()
+		indicator.translatesAutoresizingMaskIntoConstraints = false
+		indicator.color = Asset.color.backgroundActive
+		indicator.startAnimating()
+		return indicator
 	}()
 	
 	// MARK: - Inits -
@@ -26,11 +26,13 @@ final class LoadingView: UIView {
 	
 	// MARK: - Setup -
 	private func setupViews() {
-		self.addSubview(progressView)
+		
+		#warning("Self?")
+		self.addSubview(indicatiorView)
 
 		NSLayoutConstraint.activate([
-			progressView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-			progressView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+			indicatiorView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+			indicatiorView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
 		])
 	}
 }

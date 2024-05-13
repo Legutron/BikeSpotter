@@ -8,12 +8,12 @@
 import Foundation
 import CoreLocation
 
-protocol StationDetailMapNotifyDelegate: AnyObject {
+protocol StationDetailMapUpdateDelegate: AnyObject {
 	func userLocationUpdated()
 }
 
 protocol StationDetailMapViewModelProtocol {
-	var delegate: StationDetailMapNotifyDelegate? { get set }
+	var delegate: StationDetailMapUpdateDelegate? { get set }
 	var userLocation: CLLocation? { get }
 	var stationLocation: CLLocation { get }
 	var bikeAvailableValueLabel: String { get }
@@ -22,7 +22,7 @@ protocol StationDetailMapViewModelProtocol {
 }
 
 final class StationDetailMapViewModel: StationDetailMapViewModelProtocol {
-	weak var delegate: StationDetailMapNotifyDelegate?
+	weak var delegate: StationDetailMapUpdateDelegate?
 	
 	@Published var userLocation: CLLocation?
 	@Published var stationLocation: CLLocation
