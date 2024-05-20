@@ -36,8 +36,8 @@ public class Location: NSObject {
 	
 	func requestUserLocation() {
 		locationManager.requestWhenInUseAuthorization()
-		Task.init {
-			await updatePermissionStatus()
+		DispatchQueue.global().async {
+			self.updatePermissionStatus()
 		}
 	}
 	
@@ -45,7 +45,7 @@ public class Location: NSObject {
 		Int(coordinate1.distance(from: coordinate2))
 	}
 	
-	private func updatePermissionStatus() async {
+	private func updatePermissionStatus() {
 		if CLLocationManager.locationServicesEnabled() {
 			locationManager.delegate = self
 			locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters

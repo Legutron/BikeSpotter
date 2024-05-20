@@ -11,4 +11,5 @@ public enum ApiError: Error {
 	case invalidURL(String)
 	case badServerResponse(String)
 	case unknownDataType(String)
+	case unknown(String)
 }

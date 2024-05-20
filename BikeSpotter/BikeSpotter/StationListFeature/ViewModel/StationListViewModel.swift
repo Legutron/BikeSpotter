@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreLocation
+import Combine
 
 protocol StationListUpdateDelegate: AnyObject {
 	func stationsUpdated()
@@ -22,6 +23,7 @@ protocol StationListViewModelProtocol {
 
 final class StationListViewModel: StationListViewModelProtocol {
 	weak var delegate: StationListUpdateDelegate?
+	private var cancellables = Set<AnyCancellable>()
 	
 	@Published var cellViewModels: [StationListCellViewModel] = []
 	@Published var userLocation: CLLocation?
@@ -33,21 +35,32 @@ final class StationListViewModel: StationListViewModelProtocol {
 	}
 	
 	func fetchData() {
-		Task.init {
-			await fetchStations()
-		}
+		fetchStations()
 	}
 	
-	private func fetchStations() async {
-		do {
-			let stations = try await Api.shared.fetchStations()
-			self.cellViewModels = stations.map {
-				StationListCellViewModel(stationData: $0)
+	private func fetchStations() {
+		Api.shared.fetchStations()
+			.map { stations in
+				stations
+					.map {
+						StationListCellViewModel(stationData: $0)
+					}
 			}
-			delegate?.stationsUpdated()
-		} catch {
-			print("🔴 Error: \(error.localizedDescription)")
-		}
+			.sink(
+				receiveCompletion: { completion in
+					switch completion {
+					case .finished:
+						break
+					case .failure(let error):
+						print("Failed to fetch stations: \(error)")
+					}
+				},
+				receiveValue: { [weak self] stationCellViewModels in
+					self?.cellViewModels = stationCellViewModels
+					self?.delegate?.stationsUpdated()
+				}
+			)
+			.store(in: &cancellables)
 	}
 	
 	private func getUserLocation() {
