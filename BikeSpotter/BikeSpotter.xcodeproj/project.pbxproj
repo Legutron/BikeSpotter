@@ -36,7 +36,8 @@
 		3B95A8F42BF12775003F52F5 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 3B95A8F32BF12775003F52F5 /* Localizable.xcstrings */; };
 		3B95A8F62BF12AB9003F52F5 /* ApiMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95A8F52BF12AB9003F52F5 /* ApiMapper.swift */; };
 		3B95A8F82BF13893003F52F5 /* MapPinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95A8F72BF13893003F52F5 /* MapPinView.swift */; };
-		3BA456652BF7787B0039368A /* StationListTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA456642BF7787B0039368A /* StationListTest.swift */; };
+		3BA456652BF7787B0039368A /* StationListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA456642BF7787B0039368A /* StationListTests.swift */; };
+		3BFB4BBF2BFCCAC500E46952 /* StationDetailMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFB4BBE2BFCCAC500E46952 /* StationDetailMapTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,7 +91,8 @@
 		3B95A8F32BF12775003F52F5 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		3B95A8F52BF12AB9003F52F5 /* ApiMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiMapper.swift; sourceTree = "<group>"; };
 		3B95A8F72BF13893003F52F5 /* MapPinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPinView.swift; sourceTree = "<group>"; };
-		3BA456642BF7787B0039368A /* StationListTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationListTest.swift; sourceTree = "<group>"; };
+		3BA456642BF7787B0039368A /* StationListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationListTests.swift; sourceTree = "<group>"; };
+		3BFB4BBE2BFCCAC500E46952 /* StationDetailMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationDetailMapTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,7 +160,8 @@
 			isa = PBXGroup;
 			children = (
 				3B16F02B2BEBA62E00CF64DC /* BikeSpotterTests.swift */,
-				3BA456642BF7787B0039368A /* StationListTest.swift */,
+				3BA456642BF7787B0039368A /* StationListTests.swift */,
+				3BFB4BBE2BFCCAC500E46952 /* StationDetailMapTests.swift */,
 			);
 			path = BikeSpotterTests;
 			sourceTree = "<group>";
@@ -439,7 +442,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3BA456652BF7787B0039368A /* StationListTest.swift in Sources */,
+				3BFB4BBF2BFCCAC500E46952 /* StationDetailMapTests.swift in Sources */,
+				3BA456652BF7787B0039368A /* StationListTests.swift in Sources */,
 				3B16F02C2BEBA62E00CF64DC /* BikeSpotterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
