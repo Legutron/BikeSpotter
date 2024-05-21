@@ -26,6 +26,20 @@ final class StationListViewModel: StationListViewModelProtocol {
 	@Published var cellViewModels: [StationListCellViewModel] = []
 	@Published var userLocation: CLLocation?
 	
+	private let api: BikeApiProtocol
+	
+	init(
+		delegate: StationListUpdateDelegate? = nil,
+		cellViewModels: [StationListCellViewModel] = [],
+		userLocation: CLLocation? = nil,
+		api: BikeApiProtocol = Api.shared
+	) {
+		self.delegate = delegate
+		self.cellViewModels = cellViewModels
+		self.userLocation = userLocation
+		self.api = api
+	}
+	
 	func onLoad() {
 		Location.shared.setupLocationDelegate(delegate: self)
 		getUserLocation()
@@ -40,7 +54,7 @@ final class StationListViewModel: StationListViewModelProtocol {
 	
 	private func fetchStations() async {
 		do {
-			let stations = try await Api.shared.fetchStations()
+			let stations = try await api.fetchStations()
 			self.cellViewModels = stations.map {
 				StationListCellViewModel(stationData: $0)
 			}

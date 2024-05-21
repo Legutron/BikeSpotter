@@ -8,7 +8,7 @@
 import Foundation
 import CoreLocation
 
-struct StationData {
+public struct StationData {
 	let station: Station
 	let status: StationStatusModel
 	var distance: Int?

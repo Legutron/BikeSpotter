@@ -7,13 +7,17 @@
 
 import Foundation
 
+public protocol BikeApiProtocol {
+	func fetchStations() async throws -> [StationData]
+}
+
 enum ApiKeys {
 	static let stationInfoURL: String = "https://gbfs.urbansharing.com/rowermevo.pl/station_information.json"
 	static let stationStatusURL: String = "https://gbfs.urbansharing.com/rowermevo.pl/station_status.json"
 }
 
 // Singleton pattern
-public class Api {
+public class Api: BikeApiProtocol {
 	enum Constants {
 		static let defaultDistance: Int = Int.max
 	}
@@ -26,7 +30,7 @@ public class Api {
 		self.decoder = decoder
 	}
 	
-	func fetchStations() async throws -> [StationData] {
+	public func fetchStations() async throws -> [StationData] {
 		/*
 		COMMENT:
 		fetching data on the asynchronously using async let,
@@ -77,3 +81,12 @@ extension Api {
 		return result
 	}
 }
+
+// MARK: - Mock
+#if DEBUG
+public struct ApiMock: BikeApiProtocol {
+	public func fetchStations() async throws -> [BikeSpotter.StationData] {
+		return [.mock]
+	}
+}
+#endif
